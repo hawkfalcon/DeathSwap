@@ -1,0 +1,5 @@
+lobby_spawn: 0,0,0,0 #set with /ds set lobby
+end_spawn: 0,0,0,0 #set with /ds set end
+min_time: 20 #twenty seconds min time between swaps
+max_time: 120 #2 minutes maz time between swaps
+random_spawn_radius: 10000 #max distance players spawn

@@ -1,0 +1,21 @@
+name: DeathSwap
+version: 1.1
+main: com.hawkfalcon.DeathSwap.Main
+commands: 
+   ds:
+      description: All DeathSwap commands
+   deathswap:
+      description: All DeathSwap commands
+            
+permissions: 
+     deathswap.leave:
+        description: Allows use of /ds leave
+        default: true
+     deathswap.join:
+        description: Allows use of /ds join
+        default: true
+     deathswap.set:
+        description: Allows use of /ds set
+        default: OP
+     deathswap.bypass:
+        default: OP
