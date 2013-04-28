@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -68,6 +68,14 @@ public class Commands implements CommandExecutor {
                 p.saveConfig();
                 p.u.message(ChatColor.GOLD + "Spawn point set!", n);
             }
+            if(args[0].equalsIgnoreCase("duel") && player.hasPermission("deathswap.duel")) {
+            	Player pl = p.getServer().getPlayer(args[1]);
+            	if(pl == null || pl.getName() == n){
+            	    sender.sendMessage("Invalid Player");
+            	} else {
+                p.start.newGame(n, args[1]);
+            	}
+            }
         }
         return false;
     }
@@ -75,7 +83,9 @@ public class Commands implements CommandExecutor {
     public void checkForStart() {
         int t = p.lobby.size();
         if(t > 1) {
-            p.start.newGame();
+            String playerone = p.lobby.get(0);
+            String playertwo = p.lobby.get(1);
+            p.start.newGame(playerone, playertwo);
         }
     }
 

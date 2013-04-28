@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

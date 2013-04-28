@@ -1,6 +1,6 @@
 name: DeathSwap
-version: 1.1
-main: com.hawkfalcon.deathswap.DeathSwap
+version: 1.2
+main: com.hawkfalcon.DeathSwap.DeathSwap
 commands: 
    ds:
       description: All DeathSwap commands
@@ -19,3 +19,5 @@ permissions:
         default: OP
      deathswap.bypass:
         default: OP
+     deathswap.duel:
+        default: true

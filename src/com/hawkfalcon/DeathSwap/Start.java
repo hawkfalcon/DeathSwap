@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.entity.Player;
 
@@ -10,12 +10,10 @@ public class Start {
         this.p = m;
     }
 
-    public void newGame() {
-        String playerone = p.lobby.get(0);
-        String playertwo = p.lobby.get(1);
+    public void newGame(String playerone, String playertwo) {
         Player one = p.getServer().getPlayer(playerone);
         Player two = p.getServer().getPlayer(playertwo);
-        p.u.broadcastLobby("Game started with " + playerone + " and " + playertwo + "!");
+        p.u.broadcast("Game started with " + playerone + " and " + playertwo + "!");
         p.match.put(playerone, playertwo);
         p.lobby.remove(playerone);
         p.lobby.remove(playertwo);

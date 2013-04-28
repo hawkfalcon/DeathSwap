@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

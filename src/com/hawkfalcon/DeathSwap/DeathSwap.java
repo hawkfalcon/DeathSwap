@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import java.io.File;
 import java.util.ArrayList;

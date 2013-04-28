@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,7 +14,9 @@ public class Utility {
     public void message(String message, String sender) {
         p.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
     }
-
+    public void broadcast(String message) {
+        p.getServer().broadcastMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
+    }
     public void broadcastLobby(String message) {
         for(String sender:p.lobby) {
             p.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);

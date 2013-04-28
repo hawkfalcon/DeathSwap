@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.entity.Player;
 
@@ -13,6 +13,7 @@ public class Stop {
     public void dealWithLeftoverGames(String n, boolean died) {
         if(p.match.containsKey(n)) {
             String other = p.match.get(n);
+            p.u.broadcast(other + " has won against " + n +"!");
             Player o = p.getServer().getPlayer(other);
             if(died) {
                 p.u.message(n + " died, you win!", p.match.get(n));
@@ -32,6 +33,7 @@ public class Stop {
                     pkey = key;
                 }
             }
+            p.u.broadcast(pkey + " has won against " + n +"!");
             Player o = p.getServer().getPlayer(pkey);
             if(died) {
                 p.u.message(n + " died, you win!", pkey);

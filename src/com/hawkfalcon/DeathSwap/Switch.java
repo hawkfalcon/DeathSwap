@@ -1,7 +1,8 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.DeathSwap;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Vehicle;
 
 public class Switch {
 
@@ -17,24 +18,33 @@ public class Switch {
             String ptwo = p.match.get(n);
             p.u.message("Commencing swap!", pone);
             p.u.message("Commencing swap!", ptwo);
-            Player playerone = p.getServer().getPlayer(pone);
-            Player playertwo = p.getServer().getPlayer(ptwo);
-            Location locone = playerone.getLocation();
-            Location loctwo = playertwo.getLocation();
-            protect();
-            playerone.teleport(loctwo);
-            playertwo.teleport(locone);
+            final Player playerone = p.getServer().getPlayer(pone);
+            final Player playertwo = p.getServer().getPlayer(ptwo);
+            final Location locone = playerone.getLocation();
+            final Location loctwo = playertwo.getLocation();
+            if (playerone.getVehicle() != null) {
+               playerone.leaveVehicle();
+            }
+            if (playertwo.getVehicle() != null) {
+                playertwo.leaveVehicle();
+            }
+            int task = p.getServer().getScheduler().scheduleSyncDelayedTask(this.p, new Runnable() {
+                public void run() {
+                    playerone.teleport(loctwo);
+                    playertwo.teleport(locone);
+                    protect();                
+                    }
+            }, 1L);
         }
+        
     }
 
     public void protect() {
         p.protect = true;
         int task = p.getServer().getScheduler().scheduleSyncDelayedTask(this.p, new Runnable() {
-
             public void run() {
                 p.protect = false;
             }
-
         }, 20L * 5);
     }
 }
