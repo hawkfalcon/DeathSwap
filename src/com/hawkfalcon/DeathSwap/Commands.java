@@ -46,8 +46,8 @@ public class Commands implements CommandExecutor {
                 if(p.game.contains(n)) {
                     p.game.remove(n);
                     p.stop.dealWithLeftoverGames(n, false);
-                    p.getServer().getPlayer(n).getInventory().clear();
-                    p.u.clearArmor(p.getServer().getPlayer(n));
+                    player.getInventory().clear();
+                    p.u.clearArmor(player);
                     p.u.teleport(n, 1);
                 }
             }
@@ -55,8 +55,8 @@ public class Commands implements CommandExecutor {
 
         if(args.length == 2) {
             if(args[0].equalsIgnoreCase("set") && player.hasPermission("deathswap.set")) {
-                Location loc = p.getServer().getPlayer(n).getLocation();
-                String locs = p.getServer().getPlayer(n).getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ();
+                Location loc = player.getLocation();
+                String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ();
                 if(args[1].equals("lobby")) {
                     p.getConfig().set("lobby_spawn", locs);
                 }
@@ -70,7 +70,7 @@ public class Commands implements CommandExecutor {
             }
             if(args[0].equalsIgnoreCase("duel") && player.hasPermission("deathswap.duel")) {
             	Player pl = p.getServer().getPlayer(args[1]);
-            	if(pl == null || pl.getName() == n){
+            	if(pl == null || pl.getName() == n || p.game.contains(pl.getName())){
             	    sender.sendMessage("Invalid Player");
             	} else {
                 p.start.newGame(n, args[1]);

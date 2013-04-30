@@ -1,5 +1,6 @@
 package com.hawkfalcon.DeathSwap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Start {
@@ -10,21 +11,20 @@ public class Start {
         this.p = m;
     }
 
-    public void newGame(String playerone, String playertwo) {
-        Player one = p.getServer().getPlayer(playerone);
-        Player two = p.getServer().getPlayer(playertwo);
-        p.u.broadcast("Game started with " + playerone + " and " + playertwo + "!");
-        p.match.put(playerone, playertwo);
-        p.lobby.remove(playerone);
-        p.lobby.remove(playertwo);
-        p.game.add(playerone);
-        p.game.add(playertwo);
-        one.setHealth(one.getMaxHealth());
-        two.setHealth(two.getMaxHealth());
-        one.setFoodLevel(20);
-        two.setFoodLevel(20);
-        one.getInventory().clear();
-        two.getInventory().clear();
-        p.loc.randomTeleport(playerone, playertwo);
+    public void newGame(String n_one, String n_two) { 
+        p.u.broadcast(ChatColor.DARK_AQUA + "Game started with " + n_two + " and " + n_two + "!");
+        p.match.put(n_one, n_two);
+        newGameUtils(n_one);
+        newGameUtils(n_two);
+        p.startgame.add(n_one);
+    }
+    public void newGameUtils(String n){
+    	Player pl = p.getServer().getPlayer(n);
+    	p.lobby.remove(n);
+        p.game.add(n);
+        pl.setHealth(pl.getMaxHealth());
+        pl.setFoodLevel(20);
+        pl.getInventory().clear();
+        p.loc.randomTeleport(n);
     }
 }

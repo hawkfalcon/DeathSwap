@@ -16,16 +16,17 @@ public class DeathSwap extends JavaPlugin {
     public Loc loc = new Loc(this);
     public Start start = new Start(this);
     public Stop stop = new Stop(this);
-    public Switch sw = new Switch(this);
+    public Swap sw = new Swap(this);
 
     public CommandExecutor Commands = new Commands(this);
-    public Listener Lobby = new Lobby(this);
+    public Listener Lobby = new Protect(this);
     public Listener Death = new Death(this);
 
     HashMap<String, String> match = new HashMap<String, String>();
     ArrayList<String> game = new ArrayList<String>();
     ArrayList<String> lobby = new ArrayList<String>();
     ArrayList<String> loggedoff = new ArrayList<String>();
+    ArrayList<String> startgame = new ArrayList<String>();
 
     public boolean protect = false;
     public int min;
@@ -46,7 +47,6 @@ public class DeathSwap extends JavaPlugin {
     }
 
     public int randNum;
-
     public void startTimer() {
         int task = getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             public void run() {

@@ -26,16 +26,12 @@ public class Loc {
         return location;
     }
 
-    public void randomTeleport(final String playerone, final String playertwo) {
+    public void randomTeleport(String n){
         Location lobby = getLocation(p.getConfig().getString("lobby_spawn"));
-        Location locone = randomLoc(lobby);
-        Location loctwo = randomLoc(lobby);
-        p.u.message("Teleporting, be ready!", playerone);
-        p.u.message("Teleporting, be ready!", playertwo);
-        locone.getBlock().getRelative(BlockFace.DOWN).setTypeId(7);
-        loctwo.getBlock().getRelative(BlockFace.DOWN).setTypeId(7);
-        p.getServer().getPlayer(playerone).teleport(locone);
-        p.getServer().getPlayer(playertwo).teleport(loctwo);
+        Location loc = randomLoc(lobby);
+        p.u.message("Teleporting, be ready!", n);
+        loc.getBlock().getRelative(BlockFace.DOWN).setTypeId(7);
+        p.getServer().getPlayer(n).teleport(loc);
     }
 
     public Location randomLoc(Location center) {
@@ -43,7 +39,6 @@ public class Loc {
     	if (w == null){
     		w = center.getWorld();
     	}
-
         Random rand = new Random();
         int min = 1;
         int max = (p.getConfig().getInt("random_spawn_radius"))/100;
@@ -59,10 +54,8 @@ public class Loc {
                 y = w.getHighestBlockAt((int) x, (int) z).getY();
                 below = w.getBlockAt((int) x, (int) y - 1, (int) z).getType();
                 above = w.getBlockAt((int) x, (int) y + 1, (int) z).getType();
-
             } else break;
         }
-
         Location loc = new Location(w, x, y, z);
         return loc;
     }

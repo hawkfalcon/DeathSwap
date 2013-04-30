@@ -1,5 +1,6 @@
 package com.hawkfalcon.DeathSwap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Stop {
@@ -12,19 +13,8 @@ public class Stop {
 
     public void dealWithLeftoverGames(String n, boolean died) {
         if(p.match.containsKey(n)) {
-            String other = p.match.get(n);
-            p.u.broadcast(other + " has won against " + n +"!");
-            Player o = p.getServer().getPlayer(other);
-            if(died) {
-                p.u.message(n + " died, you win!", p.match.get(n));
-            } else {
-                p.u.message(n + " has left the game, you win!", p.match.get(n));
-            }
-            p.game.remove(other);
-            o.getInventory().clear();
-            p.u.clearArmor(o);
-            p.u.teleport(other, 1);
-            p.match.remove(n);
+            String o = p.match.get(n);
+            cleanUp(n, o, died);
         }
         else if(p.match.containsValue(n)) {
             String pkey = "nobody";
@@ -33,18 +23,22 @@ public class Stop {
                     pkey = key;
                 }
             }
-            p.u.broadcast(pkey + " has won against " + n +"!");
-            Player o = p.getServer().getPlayer(pkey);
-            if(died) {
-                p.u.message(n + " died, you win!", pkey);
-            } else {
-                p.u.message(n + " has left the game, you win!", pkey);
-            }
-            p.game.remove(pkey);
-            o.getInventory().clear();
-            p.u.clearArmor(o);
-            p.u.teleport(pkey, 1);
-            p.match.remove(pkey);
+            cleanUp(n, pkey, died);
         }
+    }
+    public void cleanUp(String n, String o, boolean died){
+         Player other = p.getServer().getPlayer(o);
+    	 p.u.broadcast(ChatColor.DARK_AQUA + o + " has won against " + n +"!");
+         if(died) {
+             p.u.message(n + " died, you win!", o);
+         } else {
+             p.u.message(n + " has left the game, you win!", o);
+         }
+         p.game.remove(o);
+         other.getInventory().clear();
+         p.u.clearArmor(other);
+         p.u.teleport(o, 1);
+         p.match.remove(n);
+         p.startgame.remove(n);
     }
 }
