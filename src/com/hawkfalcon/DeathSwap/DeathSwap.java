@@ -1,6 +1,7 @@
 package com.hawkfalcon.DeathSwap;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -21,12 +22,15 @@ public class DeathSwap extends JavaPlugin {
     public CommandExecutor Commands = new Commands(this);
     public Listener Lobby = new Protect(this);
     public Listener Death = new Death(this);
+    public Listener Auto = new Auto(this);
 
     HashMap<String, String> match = new HashMap<String, String>();
+    HashMap<String, String> accept = new HashMap<String, String>();
     ArrayList<String> game = new ArrayList<String>();
     ArrayList<String> lobby = new ArrayList<String>();
     ArrayList<String> loggedoff = new ArrayList<String>();
     ArrayList<String> startgame = new ArrayList<String>();
+
 
     public boolean protect = false;
     public int min;
@@ -34,11 +38,18 @@ public class DeathSwap extends JavaPlugin {
 
     public void onEnable() {
         final File f = new File(getDataFolder(), "config.yml");
-        if(!f.exists()) {
+        if (!f.exists()) {
             saveDefaultConfig();
+        }
+        try {
+            MetricsLite metrics = new MetricsLite(this);
+            metrics.start();
+        } catch (IOException e) {
+            System.out.println("Error Submitting stats!");
         }
         getServer().getPluginManager().registerEvents(Lobby, this);
         getServer().getPluginManager().registerEvents(Death, this);
+        getServer().getPluginManager().registerEvents(Auto, this);
         getCommand("ds").setExecutor(Commands);
         getCommand("deathswap").setExecutor(Commands);
         startTimer();
@@ -47,6 +58,7 @@ public class DeathSwap extends JavaPlugin {
     }
 
     public int randNum;
+
     public void startTimer() {
         int task = getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
             public void run() {
@@ -55,7 +67,7 @@ public class DeathSwap extends JavaPlugin {
                 sw.switchPlayers();
                 startTimer();
             }
-        }, randNum * 20L);
-
+        }, randNum * 5L);
     }
+
 }

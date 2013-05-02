@@ -16,34 +16,35 @@ public class Commands implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(!(sender instanceof Player)) return false;
+        if (!(sender instanceof Player))
+            return false;
         String n = sender.getName();
         Player player = (Player) sender;
-        if((cmd.getName().equalsIgnoreCase("ds")) || (cmd.getName().equalsIgnoreCase("deathswap"))) {
-            if(args.length == 0) {
+        if ((cmd.getName().equalsIgnoreCase("ds")) || (cmd.getName().equalsIgnoreCase("deathswap"))) {
+            if (args.length == 0) {
                 p.u.message("Join with /ds join", n);
             }
         }
-        if(args.length == 1) {
-            if(args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
-                if(!p.game.contains(n) && !p.lobby.contains(n)) {
+        if (args.length == 1) {
+            if (args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
+                if (!p.game.contains(n) && !p.lobby.contains(n)) {
                     p.u.message("You joined the game!", n);
                     p.u.broadcastLobby(n + " joined the game!");
                     // mark as in lobby
                     p.lobby.add(n);
                     // teleport to lobby
                     p.u.teleport(n, 0);
-                    checkForStart();
+                    p.u.checkForStart();
                 }
             }
-            if(args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
-                if(p.lobby.contains(n)) {
+            if (args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
+                if (p.lobby.contains(n)) {
                     p.u.message("You left the game!", n);
                     p.u.broadcastLobby(n + " left the game!");
                     p.lobby.remove(n);
                     p.u.teleport(n, 1);
                 }
-                if(p.game.contains(n)) {
+                if (p.game.contains(n)) {
                     p.game.remove(n);
                     p.stop.dealWithLeftoverGames(n, false);
                     player.getInventory().clear();
@@ -51,16 +52,21 @@ public class Commands implements CommandExecutor {
                     p.u.teleport(n, 1);
                 }
             }
+            if (args[0].equalsIgnoreCase("accept") && player.hasPermission("deathswap.accept")) {
+                if (p.accept.containsKey(n)) {
+                    p.start.newGame(p.accept.get(n), n);
+                    p.accept.remove(n);
+                }
+            }
         }
 
-        if(args.length == 2) {
-            if(args[0].equalsIgnoreCase("set") && player.hasPermission("deathswap.set")) {
+        if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("set") && player.hasPermission("deathswap.set")) {
                 Location loc = player.getLocation();
                 String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ();
-                if(args[1].equals("lobby")) {
+                if (args[1].equals("lobby")) {
                     p.getConfig().set("lobby_spawn", locs);
-                }
-                else if(args[1].equals("end")) {
+                } else if (args[1].equals("end")) {
                     p.getConfig().set("end_spawn", locs);
                 } else {
                     return false;
@@ -68,25 +74,27 @@ public class Commands implements CommandExecutor {
                 p.saveConfig();
                 p.u.message(ChatColor.GOLD + "Spawn point set!", n);
             }
-            if(args[0].equalsIgnoreCase("duel") && player.hasPermission("deathswap.duel")) {
-            	Player pl = p.getServer().getPlayer(args[1]);
-            	if(pl == null || pl.getName() == n || p.game.contains(pl.getName())){
-            	    sender.sendMessage("Invalid Player");
-            	} else {
-                p.start.newGame(n, args[1]);
-            	}
+            if (args[0].equalsIgnoreCase("duel") && player.hasPermission("deathswap.duel")) {
+                Player pl = p.getServer().getPlayer(args[1]);
+                String o = args[1];
+                if (pl == null || pl.getName() == n || p.game.contains(pl.getName())) {
+                    sender.sendMessage("Invalid Player");
+                } else {
+                    startAccept(n, o);
+                }
             }
         }
         return false;
     }
 
-    public void checkForStart() {
-        int t = p.lobby.size();
-        if(t > 1) {
-            String playerone = p.lobby.get(0);
-            String playertwo = p.lobby.get(1);
-            p.start.newGame(playerone, playertwo);
-        }
+    public void startAccept(final String n, String o) {
+        p.u.message(n + " wishes to play DeathSwap with you, type /ds accept to play!", o);
+        p.u.message("Request to play sent!", n);
+        p.accept.put(o, n);
+        int task = p.getServer().getScheduler().scheduleSyncDelayedTask(this.p, new Runnable() {
+            public void run() {
+                p.accept.remove(n);
+            }
+        }, 20 * 10L);
     }
-
 }

@@ -1,6 +1,26 @@
-lobby_spawn: 0,0,0,0 #set with /ds set lobby
-end_spawn: 0,0,0,0 #set with /ds set end
-min_time: 20 #twenty seconds min time between swaps
-max_time: 120 #2 minutes maz time between swaps
-random_spawn_radius: 10000 #max distance players spawn
-world: "worldname" #world to use for deathswap, default lobby world.
+#set with /ds set lobby
+lobby_spawn: world,0,0,0 
+
+#set with /ds set end
+end_spawn: world,0,0,0 
+
+#twenty seconds min time between swaps
+min_time: 20 
+
+#2 minutes max time between swaps
+max_time: 120 
+
+#max distance players spawn
+random_spawn_radius: 10000 
+
+#world to use for deathswap, default lobby world.
+world: "worldname" 
+
+#sound and effects on swapping
+swap_sound: true 
+
+#When in game, add a [DeathSwap] prefix to chat
+chat_prefix: true 
+
+#join lobby automatically on join
+auto_join: false 
