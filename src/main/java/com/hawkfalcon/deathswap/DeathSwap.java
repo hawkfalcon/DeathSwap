@@ -40,6 +40,7 @@ public class DeathSwap extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Protect(this), this);
         getServer().getPluginManager().registerEvents(new Death(this), this);
         getServer().getPluginManager().registerEvents(new Auto(this), this);
+        getServer().getPluginManager().registerEvents(new Signs(this), this);
         getCommand("ds").setExecutor(new DSCommand(this));
         startTimer();
         min = getConfig().getInt("min_time");
