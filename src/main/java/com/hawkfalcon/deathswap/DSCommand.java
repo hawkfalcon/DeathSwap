@@ -8,11 +8,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Commands implements CommandExecutor {
+public class DSCommand implements CommandExecutor {
 
     public DeathSwap plugin;
 
-    public Commands(DeathSwap m) {
+    public DSCommand(DeathSwap m) {
         this.plugin = m;
     }
 
