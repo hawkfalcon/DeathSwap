@@ -1,18 +1,18 @@
-package com.hawkfalcon.DeathSwap;
+package com.hawkfalcon.deathswap;
 
 /*
  * Copyright 2011-2013 Tyler Blair. All rights reserved.
- *
+ * 
  * Redistribution and use in source and binary forms, with or without modification, are
  * permitted provided that the following conditions are met:
- *
- *    1. Redistributions of source code must retain the above copyright notice, this list of
- *       conditions and the following disclaimer.
- *
- *    2. Redistributions in binary form must reproduce the above copyright notice, this list
- *       of conditions and the following disclaimer in the documentation and/or other materials
- *       provided with the distribution.
- *
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this list of
+ * conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice, this list
+ * of conditions and the following disclaimer in the documentation and/or other materials
+ * provided with the distribution.
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR OR
@@ -22,7 +22,7 @@ package com.hawkfalcon.DeathSwap;
  * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
+ * 
  * The views and conclusions contained in the software and documentation are those of the
  * authors and contributors and should not be interpreted as representing official policies,
  * either expressed or implied, of anybody else.
@@ -106,7 +106,7 @@ public class MetricsLite {
     private volatile BukkitTask task = null;
 
     public MetricsLite(Plugin plugin) throws IOException {
-        if (plugin == null) {
+        if(plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
         }
 
@@ -122,7 +122,7 @@ public class MetricsLite {
         configuration.addDefault("debug", false);
 
         // Do we need to create the file?
-        if (configuration.get("guid", null) == null) {
+        if(configuration.get("guid", null) == null) {
             configuration.options().header("http://mcstats.org").copyDefaults(true);
             configuration.save(configurationFile);
         }
@@ -141,14 +141,14 @@ public class MetricsLite {
      * @return True if statistics measuring is running, otherwise false.
      */
     public boolean start() {
-        synchronized (optOutLock) {
+        synchronized(optOutLock) {
             // Did we opt out?
-            if (isOptOut()) {
+            if(isOptOut()) {
                 return false;
             }
 
             // Is metrics already running?
-            if (task != null) {
+            if(task != null) {
                 return true;
             }
 
@@ -160,15 +160,17 @@ public class MetricsLite {
                 public void run() {
                     try {
                         // This has to be synchronized or it can collide with the disable method.
-                        synchronized (optOutLock) {
-                            // Disable Task, if it is running and the server owner decided to opt-out
-                            if (isOptOut() && task != null) {
+                        synchronized(optOutLock) {
+                            // Disable Task, if it is running and the server owner decided to
+                            // opt-out
+                            if(isOptOut() && task != null) {
                                 task.cancel();
                                 task = null;
                             }
                         }
 
-                        // We use the inverse of firstPost because if it is the first time we are posting,
+                        // We use the inverse of firstPost because if it is the first time we are
+                        // posting,
                         // it is not a interval ping, so it evaluates to FALSE
                         // Each time thereafter it will evaluate to TRUE, i.e PING!
                         postPlugin(!firstPost);
@@ -176,8 +178,8 @@ public class MetricsLite {
                         // After the first post we set firstPost to false
                         // Each post thereafter will be a ping
                         firstPost = false;
-                    } catch (IOException e) {
-                        if (debug) {
+                    } catch(IOException e) {
+                        if(debug) {
                             Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
                         }
                     }
@@ -194,17 +196,17 @@ public class MetricsLite {
      * @return true if metrics should be opted out of it
      */
     public boolean isOptOut() {
-        synchronized (optOutLock) {
+        synchronized(optOutLock) {
             try {
                 // Reload the metrics file
                 configuration.load(getConfigFile());
-            } catch (IOException ex) {
-                if (debug) {
+            } catch(IOException ex) {
+                if(debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
                 return true;
-            } catch (InvalidConfigurationException ex) {
-                if (debug) {
+            } catch(InvalidConfigurationException ex) {
+                if(debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
                 return true;
@@ -221,15 +223,15 @@ public class MetricsLite {
      */
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
-        synchronized (optOutLock) {
+        synchronized(optOutLock) {
             // Check if the server owner has already set opt-out, if not, set it.
-            if (isOptOut()) {
+            if(isOptOut()) {
                 configuration.set("opt-out", false);
                 configuration.save(configurationFile);
             }
 
             // Enable Task, if it is not running
-            if (task == null) {
+            if(task == null) {
                 start();
             }
         }
@@ -243,15 +245,15 @@ public class MetricsLite {
      */
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
-        synchronized (optOutLock) {
+        synchronized(optOutLock) {
             // Check if the server owner has already set opt-out, if not, set it.
-            if (!isOptOut()) {
+            if(!isOptOut()) {
                 configuration.set("opt-out", true);
                 configuration.save(configurationFile);
             }
 
             // Disable Task, if it is running
-            if (task != null) {
+            if(task != null) {
                 task.cancel();
                 task = null;
             }
@@ -265,7 +267,8 @@ public class MetricsLite {
      * @return the File object for the config file
      */
     public File getConfigFile() {
-        // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins to use
+        // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins
+        // to use
         // is to abuse the plugin object we already have
         // plugin.getDataFolder() => base/plugins/PluginA/
         // pluginsFolder => base/plugins/
@@ -288,12 +291,14 @@ public class MetricsLite {
         String serverVersion = Bukkit.getVersion();
         int playersOnline = Bukkit.getServer().getOnlinePlayers().length;
 
-        // END server software specific section -- all code below does not use any code outside of this class / Java
+        // END server software specific section -- all code below does not use any code outside of
+        // this class / Java
 
         // Construct the post data
         final StringBuilder data = new StringBuilder();
 
-        // The plugin's description file containg all of the plugin data such as name, version, author, etc
+        // The plugin's description file containg all of the plugin data such as name, version,
+        // author, etc
         data.append(encode("guid")).append('=').append(encode(guid));
         encodeDataPair(data, "version", pluginVersion);
         encodeDataPair(data, "server", serverVersion);
@@ -308,7 +313,7 @@ public class MetricsLite {
         int coreCount = Runtime.getRuntime().availableProcessors();
 
         // normalize os arch .. amd64 -> x86_64
-        if (osarch.equals("amd64")) {
+        if(osarch.equals("amd64")) {
             osarch = "x86_64";
         }
 
@@ -320,7 +325,7 @@ public class MetricsLite {
         encodeDataPair(data, "java_version", java_version);
 
         // If we're pinging, append it
-        if (isPing) {
+        if(isPing) {
             encodeDataPair(data, "ping", "true");
         }
 
@@ -332,7 +337,7 @@ public class MetricsLite {
 
         // Mineshafter creates a socks proxy, so we can safely bypass it
         // It does not reroute POST requests so we need to go around it
-        if (isMineshafterPresent()) {
+        if(isMineshafterPresent()) {
             connection = url.openConnection(Proxy.NO_PROXY);
         } else {
             connection = url.openConnection();
@@ -353,8 +358,8 @@ public class MetricsLite {
         writer.close();
         reader.close();
 
-        if (response == null || response.startsWith("ERR")) {
-            throw new IOException(response); //Throw the exception
+        if(response == null || response.startsWith("ERR")) {
+            throw new IOException(response); // Throw the exception
         }
     }
 
@@ -368,7 +373,7 @@ public class MetricsLite {
         try {
             Class.forName("mineshafter.MineServer");
             return true;
-        } catch (Exception e) {
+        } catch(Exception e) {
             return false;
         }
     }

@@ -1,4 +1,4 @@
-package com.hawkfalcon.DeathSwap;
+package com.hawkfalcon.deathswap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -11,16 +11,16 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 public class Protect implements Listener {
 
-    public DeathSwap p;
+    public DeathSwap plugin;
 
-    public Protect(DeathSwap m) {
-        this.p = m;
+    public Protect(DeathSwap ds) {
+        this.plugin = ds;
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockBreak(BlockBreakEvent event) {
-        if (p.lobby.contains(event.getPlayer().getName())) {
-            if (!event.getPlayer().hasPermission("deathswap.bypass")) {
+        if(plugin.lobby.contains(event.getPlayer().getName())) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
                 event.setCancelled(true);
             }
         }
@@ -28,8 +28,8 @@ public class Protect implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (p.lobby.contains(event.getPlayer().getName())) {
-            if (!event.getPlayer().hasPermission("deathswap.bypass")) {
+        if(plugin.lobby.contains(event.getPlayer().getName())) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
                 event.setCancelled(true);
             }
         }
@@ -37,8 +37,8 @@ public class Protect implements Listener {
 
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent event) {
-        if (p.lobby.contains(event.getPlayer().getName())) {
-            if (!event.getPlayer().hasPermission("deathswap.bypass")) {
+        if(plugin.lobby.contains(event.getPlayer().getName())) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
                 event.setCancelled(true);
             }
         }
@@ -47,11 +47,11 @@ public class Protect implements Listener {
     @EventHandler
     public void noCommands(PlayerCommandPreprocessEvent event) {
         String n = event.getPlayer().getName();
-        if (p.game.contains(n)) {
-            if (!event.getPlayer().hasPermission("deathswap.bypass")) {
-                if (!event.getMessage().toLowerCase().startsWith("/ds")) {
+        if(plugin.game.contains(n)) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
+                if(!event.getMessage().toLowerCase().startsWith("/ds")) {
                     event.setCancelled(true);
-                    p.u.message(ChatColor.RED + "You can't use commands while playing!", n);
+                    plugin.utility.message(ChatColor.RED + "You can't use commands while playing!", n);
                 }
             }
         }

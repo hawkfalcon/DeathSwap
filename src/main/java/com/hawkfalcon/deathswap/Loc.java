@@ -1,4 +1,4 @@
-package com.hawkfalcon.DeathSwap;
+package com.hawkfalcon.deathswap;
 
 import java.util.Random;
 
@@ -10,10 +10,10 @@ import org.bukkit.block.BlockFace;
 
 public class Loc {
 
-    public DeathSwap p;
+    public DeathSwap plugin;
 
-    public Loc(DeathSwap m) {
-        this.p = m;
+    public Loc(DeathSwap ds) {
+        this.plugin = ds;
     }
 
     public Location getLocation(String cloc) {
@@ -27,37 +27,37 @@ public class Loc {
     }
 
     public void randomTeleport(String n) {
-        Location lobby = getLocation(p.getConfig().getString("lobby_spawn"));
+        Location lobby = getLocation(plugin.getConfig().getString("lobby_spawn"));
         Location loc = randomLoc(lobby);
-        p.u.message("Teleporting, be ready!", n);
+        plugin.utility.message("Teleporting, be ready!", n);
         loc.getBlock().getRelative(BlockFace.DOWN).setTypeId(7);
-        p.getServer().getPlayer(n).teleport(loc);
+        plugin.getServer().getPlayer(n).teleport(loc);
     }
 
     public Location randomLoc(Location center) {
-        World w = p.getServer().getWorld(p.getConfig().getString("world"));
-        if (w == null) {
-            w = center.getWorld();
+        World world = plugin.getServer().getWorld(plugin.getConfig().getString("world"));
+        if(world == null) {
+            world = center.getWorld();
         }
         Random rand = new Random();
         int min = 1;
-        int max = (p.getConfig().getInt("random_spawn_radius")) / 100;
+        int max = (plugin.getConfig().getInt("random_spawn_radius")) / 100;
         double x = 0;
         double y = 0;
         double z = 0;
         Material below = null;
         Material above = null;
         while (true) {
-            if (below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
+            if(below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
                 x = (rand.nextInt(max - min) + min) * 100;
                 z = (rand.nextInt(max - min) + min) * 100;
-                y = w.getHighestBlockAt((int) x, (int) z).getY();
-                below = w.getBlockAt((int) x, (int) y - 1, (int) z).getType();
-                above = w.getBlockAt((int) x, (int) y + 1, (int) z).getType();
-            } else
+                y = world.getHighestBlockAt((int) x, (int) z).getY();
+                below = world.getBlockAt((int) x, (int) y - 1, (int) z).getType();
+                above = world.getBlockAt((int) x, (int) y + 1, (int) z).getType();
+            } else {
                 break;
+            }
         }
-        Location loc = new Location(w, x, y, z);
-        return loc;
+        return new Location(world, x, y, z);
     }
 }
