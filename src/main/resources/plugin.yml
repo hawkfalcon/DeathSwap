@@ -1,0 +1,23 @@
+name: DeathSwap
+version: ${project.version}
+main: com.hawkfalcon.deathswap.DeathSwap
+author: hawkfalcon
+commands: 
+  ds:
+    description: All DeathSwap commands          
+permissions: 
+  deathswap.leave:
+    description: Allows use of /ds leave
+    default: true
+  deathswap.join:
+    description: Allows use of /ds join
+    default: true
+  deathswap.set:
+    description: Allows use of /ds set
+    default: OP
+  deathswap.bypass:
+    default: OP
+  deathswap.duel:
+    default: true
+  deathswap.accept:
+    default: true
