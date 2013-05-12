@@ -29,13 +29,7 @@ public class DSCommand implements CommandExecutor {
         if(args.length == 1) {
             if(args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
                 if(!plugin.game.contains(name) && !plugin.lobby.contains(name)) {
-                    plugin.utility.message("You joined the game!", name);
-                    plugin.utility.broadcastLobby(name + " joined the game!");
-                    // mark as in lobby
-                    plugin.lobby.add(name);
-                    // teleport to lobby
-                    plugin.utility.teleport(name, 0);
-                    plugin.utility.checkForStart();
+                    plugin.join(player);
                 }
             }
             if(args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
