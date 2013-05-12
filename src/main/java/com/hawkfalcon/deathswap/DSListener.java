@@ -2,22 +2,86 @@ package com.hawkfalcon.deathswap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
-public class Death implements Listener {
+public class DSListener implements Listener {
 
-    public DeathSwap plugin;
+    DeathSwap plugin;
 
-    public Death(DeathSwap ds) {
+    public DSListener(DeathSwap ds) {
         this.plugin = ds;
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Block block = event.getClickedBlock();
+            if(block.getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN) {
+                Sign sign = (Sign) block.getState();
+                if(sign.getLine(0).equalsIgnoreCase("[DeathSwap]") && sign.getLine(1).equalsIgnoreCase("join")) {
+                    Player player = event.getPlayer();
+                    plugin.join(player);
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onBlockBreak(BlockBreakEvent event) {
+        if(plugin.lobby.contains(event.getPlayer().getName())) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onBlockPlace(BlockPlaceEvent event) {
+        if(plugin.lobby.contains(event.getPlayer().getName())) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerPickupItem(PlayerPickupItemEvent event) {
+        if(plugin.lobby.contains(event.getPlayer().getName())) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void noCommands(PlayerCommandPreprocessEvent event) {
+        String n = event.getPlayer().getName();
+        if(plugin.game.contains(n)) {
+            if(!event.getPlayer().hasPermission("deathswap.bypass")) {
+                if(!event.getMessage().toLowerCase().startsWith("/ds")) {
+                    event.setCancelled(true);
+                    plugin.utility.message(ChatColor.RED + "You can't use commands while playing!", n);
+                }
+            }
+        }
     }
 
     @EventHandler
@@ -71,6 +135,16 @@ public class Death implements Listener {
             plugin.utility.teleport(name, 0);
         }
         plugin.loggedoff.remove(name);
+        //
+        if(plugin.getConfig().getBoolean("auto_join")) {
+            plugin.utility.message("You joined the game!", name);
+            plugin.utility.broadcastLobby(name + " joined the game!");
+            // mark as in lobby
+            plugin.lobby.add(name);
+            // teleport to lobby
+            plugin.utility.teleport(name, 0);
+            plugin.utility.checkForStart();
+        }
     }
 
     @EventHandler
