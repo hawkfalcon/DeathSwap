@@ -106,7 +106,7 @@ public class MetricsLite {
     private volatile BukkitTask task = null;
 
     public MetricsLite(Plugin plugin) throws IOException {
-        if(plugin == null) {
+        if (plugin == null) {
             throw new IllegalArgumentException("Plugin cannot be null");
         }
 
@@ -122,7 +122,7 @@ public class MetricsLite {
         configuration.addDefault("debug", false);
 
         // Do we need to create the file?
-        if(configuration.get("guid", null) == null) {
+        if (configuration.get("guid", null) == null) {
             configuration.options().header("http://mcstats.org").copyDefaults(true);
             configuration.save(configurationFile);
         }
@@ -141,14 +141,14 @@ public class MetricsLite {
      * @return True if statistics measuring is running, otherwise false.
      */
     public boolean start() {
-        synchronized(optOutLock) {
+        synchronized (optOutLock) {
             // Did we opt out?
-            if(isOptOut()) {
+            if (isOptOut()) {
                 return false;
             }
 
             // Is metrics already running?
-            if(task != null) {
+            if (task != null) {
                 return true;
             }
 
@@ -160,10 +160,10 @@ public class MetricsLite {
                 public void run() {
                     try {
                         // This has to be synchronized or it can collide with the disable method.
-                        synchronized(optOutLock) {
+                        synchronized (optOutLock) {
                             // Disable Task, if it is running and the server owner decided to
                             // opt-out
-                            if(isOptOut() && task != null) {
+                            if (isOptOut() && task != null) {
                                 task.cancel();
                                 task = null;
                             }
@@ -178,8 +178,8 @@ public class MetricsLite {
                         // After the first post we set firstPost to false
                         // Each post thereafter will be a ping
                         firstPost = false;
-                    } catch(IOException e) {
-                        if(debug) {
+                    } catch (IOException e) {
+                        if (debug) {
                             Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
                         }
                     }
@@ -196,17 +196,17 @@ public class MetricsLite {
      * @return true if metrics should be opted out of it
      */
     public boolean isOptOut() {
-        synchronized(optOutLock) {
+        synchronized (optOutLock) {
             try {
                 // Reload the metrics file
                 configuration.load(getConfigFile());
-            } catch(IOException ex) {
-                if(debug) {
+            } catch (IOException ex) {
+                if (debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
                 return true;
-            } catch(InvalidConfigurationException ex) {
-                if(debug) {
+            } catch (InvalidConfigurationException ex) {
+                if (debug) {
                     Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
                 }
                 return true;
@@ -223,15 +223,15 @@ public class MetricsLite {
      */
     public void enable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
-        synchronized(optOutLock) {
+        synchronized (optOutLock) {
             // Check if the server owner has already set opt-out, if not, set it.
-            if(isOptOut()) {
+            if (isOptOut()) {
                 configuration.set("opt-out", false);
                 configuration.save(configurationFile);
             }
 
             // Enable Task, if it is not running
-            if(task == null) {
+            if (task == null) {
                 start();
             }
         }
@@ -245,15 +245,15 @@ public class MetricsLite {
      */
     public void disable() throws IOException {
         // This has to be synchronized or it can collide with the check in the task.
-        synchronized(optOutLock) {
+        synchronized (optOutLock) {
             // Check if the server owner has already set opt-out, if not, set it.
-            if(!isOptOut()) {
+            if (!isOptOut()) {
                 configuration.set("opt-out", true);
                 configuration.save(configurationFile);
             }
 
             // Disable Task, if it is running
-            if(task != null) {
+            if (task != null) {
                 task.cancel();
                 task = null;
             }
@@ -313,7 +313,7 @@ public class MetricsLite {
         int coreCount = Runtime.getRuntime().availableProcessors();
 
         // normalize os arch .. amd64 -> x86_64
-        if(osarch.equals("amd64")) {
+        if (osarch.equals("amd64")) {
             osarch = "x86_64";
         }
 
@@ -325,7 +325,7 @@ public class MetricsLite {
         encodeDataPair(data, "java_version", java_version);
 
         // If we're pinging, append it
-        if(isPing) {
+        if (isPing) {
             encodeDataPair(data, "ping", "true");
         }
 
@@ -337,7 +337,7 @@ public class MetricsLite {
 
         // Mineshafter creates a socks proxy, so we can safely bypass it
         // It does not reroute POST requests so we need to go around it
-        if(isMineshafterPresent()) {
+        if (isMineshafterPresent()) {
             connection = url.openConnection(Proxy.NO_PROXY);
         } else {
             connection = url.openConnection();
@@ -358,7 +358,7 @@ public class MetricsLite {
         writer.close();
         reader.close();
 
-        if(response == null || response.startsWith("ERR")) {
+        if (response == null || response.startsWith("ERR")) {
             throw new IOException(response); // Throw the exception
         }
     }
@@ -373,7 +373,7 @@ public class MetricsLite {
         try {
             Class.forName("mineshafter.MineServer");
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
     }

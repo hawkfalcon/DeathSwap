@@ -31,26 +31,28 @@ public class Loc {
         Location loc = randomLoc(lobby);
         plugin.utility.message("Teleporting, be ready!", n);
         loc.getBlock().getRelative(BlockFace.DOWN).setTypeId(7);
+        loc.setY(loc.getY() + 2);
         plugin.getServer().getPlayer(n).teleport(loc);
     }
 
     public Location randomLoc(Location center) {
         World world = plugin.getServer().getWorld(plugin.getConfig().getString("world"));
-        if(world == null) {
+        if (world == null) {
             world = center.getWorld();
         }
         Random rand = new Random();
-        int min = 1;
-        int max = (plugin.getConfig().getInt("random_spawn_radius")) / 100;
+        int rad = plugin.getConfig().getInt("random_spawn_radius");
+        int min = -(rad / 100);
+        int max = rad / 100;
         double x = 0;
         double y = 0;
         double z = 0;
         Material below = null;
         Material above = null;
         while (true) {
-            if(below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
-                x = (rand.nextInt(max - min) + min) * 100;
-                z = (rand.nextInt(max - min) + min) * 100;
+            if (below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
+                x = (rand.nextInt(max - min + 1) + min) * 100;
+                z = (rand.nextInt(max - min + 1) + min) * 100;
                 y = world.getHighestBlockAt((int) x, (int) z).getY();
                 below = world.getBlockAt((int) x, (int) y - 1, (int) z).getType();
                 above = world.getBlockAt((int) x, (int) y + 1, (int) z).getType();

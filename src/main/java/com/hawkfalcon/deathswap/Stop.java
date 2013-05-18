@@ -12,13 +12,13 @@ public class Stop {
     }
 
     public void dealWithLeftoverGames(String n, boolean died) {
-        if(plugin.match.containsKey(n)) {
+        if (plugin.match.containsKey(n)) {
             String o = plugin.match.get(n);
             cleanUp(n, o, died);
-        } else if(plugin.match.containsValue(n)) {
+        } else if (plugin.match.containsValue(n)) {
             String pkey = "nobody";
-            for(String key:plugin.match.keySet()) {
-                if(plugin.match.get(key).equals(n)) {
+            for (String key : plugin.match.keySet()) {
+                if (plugin.match.get(key).equals(n)) {
                     pkey = key;
                 }
             }
@@ -29,7 +29,7 @@ public class Stop {
     public void cleanUp(String n, String o, boolean died) {
         Player other = plugin.getServer().getPlayer(o);
         plugin.utility.broadcast(ChatColor.DARK_AQUA + o + " has won against " + n + "!");
-        if(died) {
+        if (died) {
             plugin.utility.message(n + " died, you win!", o);
         } else {
             plugin.utility.message(n + " has left the game, you win!", o);

@@ -37,7 +37,7 @@ public class DeathSwap extends JavaPlugin {
         try {
             MetricsLite metrics = new MetricsLite(this);
             metrics.start();
-        } catch(IOException e) {
+        } catch (IOException e) {
             getLogger().warning("Error Submitting stats!");
         }
         getServer().getPluginManager().registerEvents(new DSListener(this), this);
@@ -59,13 +59,13 @@ public class DeathSwap extends JavaPlugin {
                 startTimer();
             }
 
-        }.runTaskLater(this, randNum * 5L);
+        }.runTaskLater(this, randNum * 20L);
     }
 
     public void join(Player player) {
-        if(player.hasPermission("deathswap.join")) {
+        if (player.hasPermission("deathswap.join")) {
             String name = player.getName();
-            if(!game.contains(name) && !lobby.contains(name)) {
+            if (!game.contains(name) && !lobby.contains(name)) {
                 utility.message("You joined the game!", name);
                 utility.broadcastLobby(name + " joined the game!");
                 // mark as in lobby
@@ -78,5 +78,5 @@ public class DeathSwap extends JavaPlugin {
             player.sendMessage(ChatColor.RED + "You do not have permission to do that!");
         }
     }
-    
+
 }

@@ -24,25 +24,25 @@ public class Utility {
     }
 
     public void broadcastLobby(String message) {
-        for(String sender:plugin.lobby) {
+        for (String sender : plugin.lobby) {
             plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
         }
     }
 
     // 0=lobby 1=arena
     public void teleport(String n, int spawn) {
-        if(spawn == 0) {
+        if (spawn == 0) {
             String cloc = plugin.getConfig().getString("lobby_spawn");
             runTp(n, cloc);
         }
-        if(spawn == 1) {
+        if (spawn == 1) {
             String cloc = plugin.getConfig().getString("end_spawn");
             runTp(n, cloc);
         }
     }
 
     public void runTp(String n, String cloc) {
-        if(!(cloc.equals("world,0,0,0"))) {
+        if (!(cloc.equals("world,0,0,0"))) {
             plugin.getServer().getPlayer(n).teleport(plugin.loc.getLocation(cloc));
         } else {
             plugin.utility.message(ChatColor.RED + "You must set spawn points with /ds set <lobby/end> first!", n);
@@ -61,7 +61,7 @@ public class Utility {
     public void swapEffects(Location loc) {
         World world = loc.getWorld();
         world.playEffect(loc, Effect.GHAST_SHRIEK, 0);
-        for(int x = 5; x > 1; x--) {
+        for (int x = 5; x > 1; x--) {
             world.playEffect(loc, Effect.ENDER_SIGNAL, 0);
         }
     }
@@ -76,7 +76,7 @@ public class Utility {
 
     public void checkForStart() {
         int size = plugin.lobby.size();
-        if(size > 1) {
+        if (size > 1) {
             String playerone = plugin.lobby.get(0);
             String playertwo = plugin.lobby.get(1);
             plugin.start.newGame(playerone, playertwo);

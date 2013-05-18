@@ -14,11 +14,11 @@ public class Swap {
     }
 
     public void switchPlayers() {
-        for(String n:plugin.match.keySet()) {
+        for (String n : plugin.match.keySet()) {
             final String n_one = n;
             final String n_two = plugin.match.get(n);
             // skips the first swap
-            if(!plugin.startgame.contains(n_one)) {
+            if (!plugin.startgame.contains(n_one)) {
                 final Player pone = plugin.getServer().getPlayer(n_one);
                 final Player ptwo = plugin.getServer().getPlayer(n_two);
                 switchUtil(n_one, pone);
@@ -31,7 +31,7 @@ public class Swap {
                     public void run() {
                         pone.teleport(loctwo);
                         ptwo.teleport(locone);
-                        if(plugin.getConfig().getBoolean("swap_sound")) {
+                        if (plugin.getConfig().getBoolean("swap_sound")) {
                             plugin.utility.swapEffects(locone);
                             plugin.utility.swapEffects(loctwo);
                         }
@@ -47,7 +47,7 @@ public class Swap {
 
     public void switchUtil(String n, Player player) {
         plugin.utility.message(ChatColor.BOLD + "Commencing swap!", n);
-        if(player.getVehicle() != null) {
+        if (player.getVehicle() != null) {
             player.leaveVehicle();
         }
     }
