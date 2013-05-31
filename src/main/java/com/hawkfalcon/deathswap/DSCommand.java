@@ -58,7 +58,7 @@ public class DSCommand implements CommandExecutor {
         if (args.length == 2) {
             if (args[0].equalsIgnoreCase("set") && player.hasPermission("deathswap.set")) {
                 Location loc = player.getLocation();
-                String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ();
+                String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
                 if (args[1].equals("lobby")) {
                     plugin.getConfig().set("lobby_spawn", locs);
                 } else if (args[1].equals("end")) {

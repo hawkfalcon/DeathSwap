@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Loc {
 
@@ -22,17 +23,63 @@ public class Loc {
         Double x = Double.parseDouble(loc[1]);
         Double y = Double.parseDouble(loc[2]);
         Double z = Double.parseDouble(loc[3]);
+        if (loc.length != 4) {
+            float yaw = Float.parseFloat(loc[4]);
+            float pitch = Float.parseFloat(loc[5]);
+            Location location = new Location(w, x, y, z, yaw, pitch);
+            return location;
+        }
         Location location = new Location(w, x, y, z);
         return location;
     }
 
-    public void randomTeleport(String n) {
+    public void randomTeleport(String n_one, String n_two) {
         Location lobby = getLocation(plugin.getConfig().getString("lobby_spawn"));
-        Location loc = randomLoc(lobby);
-        plugin.utility.message("Teleporting, be ready!", n);
+        Location loc_one = randomLoc(lobby);
+        Location loc_two = randomLoc(lobby);
+        loadLoc(loc_one);
+        loadLoc(loc_two);
+        loc_one.setY(loc_one.getY() + 2);
+        loc_two.setY(loc_two.getY() + 2);
+        if (plugin.getConfig().getBoolean("countdown")) {
+            countdown(10, loc_one, loc_two, n_one, n_two);
+        } else {
+            tpPlayer(loc_one, n_one);
+            tpPlayer(loc_two, n_two);
+        }
+    }
+
+    public void loadLoc(Location loc) {
         loc.getBlock().getRelative(BlockFace.DOWN).setTypeId(7);
-        loc.setY(loc.getY() + 2);
+        loc.getChunk().load();
+    }
+
+    public void tpPlayer(Location loc, String n) {
+        plugin.utility.message("Teleporting, be ready!", n);
         plugin.getServer().getPlayer(n).teleport(loc);
+    }
+
+    public int count;
+
+    public void countdown(int time, final Location loc_one, final Location loc_two, final String n_one, final String n_two) {
+        count = time;
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                if (count < 11 && count > 0) {
+                    plugin.utility.message("Teleportation commencing in " + count + " seconds!", n_one);
+                    plugin.utility.message("Teleportation commencing in " + count + " seconds!", n_two);
+                }
+                count--;
+                if (count == 0) {
+                    this.cancel();
+                    tpPlayer(loc_one, n_one);
+                    tpPlayer(loc_two, n_two);
+                }
+            }
+
+        }.runTaskTimer(plugin, 0, 20L);
     }
 
     public Location randomLoc(Location center) {

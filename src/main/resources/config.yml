@@ -1,8 +1,8 @@
 #set with /ds set lobby
-lobby_spawn: world,0,0,0 
+lobby_spawn: world,0,0,0,0,0 
 
 #set with /ds set end
-end_spawn: world,0,0,0 
+end_spawn: world,0,0,0,0,0 
 
 #twenty seconds min time between swaps
 min_time: 20 
@@ -24,3 +24,6 @@ chat_prefix: true
 
 #join lobby automatically on join
 auto_join: false 
+
+#countdown before teleporting
+countdown: false

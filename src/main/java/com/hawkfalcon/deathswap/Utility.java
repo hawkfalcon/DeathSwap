@@ -42,7 +42,7 @@ public class Utility {
     }
 
     public void runTp(String n, String cloc) {
-        if (!(cloc.equals("world,0,0,0"))) {
+        if (!(cloc.equals("world,0,0,0,0,0"))) {
             plugin.getServer().getPlayer(n).teleport(plugin.loc.getLocation(cloc));
         } else {
             plugin.utility.message(ChatColor.RED + "You must set spawn points with /ds set <lobby/end> first!", n);

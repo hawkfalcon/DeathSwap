@@ -16,6 +16,7 @@ public class Start {
         plugin.match.put(n_one, n_two);
         newGameUtils(n_one);
         newGameUtils(n_two);
+        plugin.loc.randomTeleport(n_one, n_two);
         plugin.startgame.add(n_one);
     }
 
@@ -24,6 +25,5 @@ public class Start {
         plugin.lobby.remove(n);
         plugin.game.add(n);
         plugin.utility.playerReset(pl);
-        plugin.loc.randomTeleport(n);
     }
 }
