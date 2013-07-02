@@ -27,3 +27,9 @@ auto_join: false
 
 #countdown before teleporting
 countdown: false
+
+#Prefix
+prefix: '&4&l[&6Death&aSwap&4&l]&r'
+
+#Message to broadcast the winners and losers.
+gameend: '&6&l%WINNER% &ahas won against &6&l%LOSER%'

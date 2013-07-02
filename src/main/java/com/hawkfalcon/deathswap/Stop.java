@@ -28,7 +28,7 @@ public class Stop {
 
     public void cleanUp(String n, String o, boolean died) {
         Player other = plugin.getServer().getPlayer(o);
-        plugin.utility.broadcast(ChatColor.DARK_AQUA + o + " has won against " + n + "!");
+        plugin.utility.broadcast(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gameend").replace("%WINNER%", o).replace("LOSER", n)));
         if (died) {
             plugin.utility.message(n + " died, you win!", o);
         } else {

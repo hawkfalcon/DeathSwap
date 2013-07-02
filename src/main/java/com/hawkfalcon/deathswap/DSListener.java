@@ -154,7 +154,7 @@ public class DSListener implements Listener {
         String name = event.getPlayer().getName();
         if (plugin.game.contains(name)) {
             if (plugin.getConfig().getBoolean("chat_prefix")) {
-                event.setFormat("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] <" + name + "> " + message);
+                event.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix") + "<" + name + ">" + message));
             }
         }
     }

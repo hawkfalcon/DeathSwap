@@ -46,7 +46,13 @@ public class DeathSwap extends JavaPlugin {
         min = getConfig().getInt("min_time");
         max = getConfig().getInt("max_time");
     }
-
+    public void onDisable() { 
+        if (!game.isEmpty()) {
+            for (String name : game) {
+                utility.teleport(name, 1);
+            }
+        }
+    }
     public int randNum;
 
     public void startTimer() {
