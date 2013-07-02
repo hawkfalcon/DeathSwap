@@ -1,7 +1,10 @@
 package com.hawkfalcon.deathswap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import com.hawkfalcon.deathswap.API.DeathSwapNewGameEvent;
 
 public class Start {
 
@@ -12,6 +15,8 @@ public class Start {
     }
 
     public void newGame(String n_one, String n_two) {
+        DeathSwapNewGameEvent dsnge = new DeathSwapNewGameEvent(n_one, n_two);
+        Bukkit.getServer().getPluginManager().callEvent(dsnge);
         plugin.utility.broadcast(ChatColor.DARK_AQUA + "Game started with " + n_one + " and " + n_two + "!");
         plugin.match.put(n_one, n_two);
         newGameUtils(n_one);

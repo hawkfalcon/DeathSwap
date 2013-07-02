@@ -1,9 +1,12 @@
 package com.hawkfalcon.deathswap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.hawkfalcon.deathswap.API.DeathSwapSwapEvent;
 
 public class Swap {
 
@@ -14,6 +17,8 @@ public class Swap {
     }
 
     public void switchPlayers() {
+        DeathSwapSwapEvent dsse = new DeathSwapSwapEvent();
+        Bukkit.getServer().getPluginManager().callEvent(dsse);
         for (String n : plugin.match.keySet()) {
             final String n_one = n;
             final String n_two = plugin.match.get(n);
