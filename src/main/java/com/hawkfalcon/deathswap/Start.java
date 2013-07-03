@@ -19,9 +19,9 @@ public class Start {
         Bukkit.getServer().getPluginManager().callEvent(dsnge);
         plugin.utility.broadcast(ChatColor.DARK_AQUA + "Game started with " + n_one + " and " + n_two + "!");
         plugin.match.put(n_one, n_two);
+        plugin.loc.randomTeleport(n_one, n_two);
         newGameUtils(n_one);
         newGameUtils(n_two);
-        plugin.loc.randomTeleport(n_one, n_two);
         plugin.startgame.add(n_one);
     }
 

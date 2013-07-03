@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -161,6 +162,18 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            String name = ((Player) event.getEntity()).getName();
+            if (plugin.lobby.contains(name)) {
+                event.setCancelled(true);
+            }
+            if (plugin.game.contains(name) && plugin.protect) {
+                event.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
+    public void onEntitysDamage(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {
             String name = ((Player) event.getEntity()).getName();
             if (plugin.lobby.contains(name)) {
