@@ -1,16 +1,17 @@
 package com.hawkfalcon.deathswap.API;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class DeathSwapNewGameEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
-    private String name1;
-    private String name2;
+    private Player playerone;
+    private Player playertwo;
 
-    public DeathSwapNewGameEvent(String name1, String name2) {
-        this.name1 = name1;
-        this.name2 = name2;
+    public DeathSwapNewGameEvent(Player playerone, Player playertwo) {
+        this.playerone = playerone;
+        this.playertwo = playertwo;
     }
 
     public HandlerList getHandlers() {
@@ -21,11 +22,11 @@ public class DeathSwapNewGameEvent extends Event {
         return handlers;
     }
 
-    public String getNameOne() {
-        return this.name1;
+    public Player getPlayerOne() {
+        return this.playerone;
     }
 
-    public String getNameTwo() {
-        return this.name2;
+    public Player getPlayerTwo() {
+        return this.playertwo;
     }
 }

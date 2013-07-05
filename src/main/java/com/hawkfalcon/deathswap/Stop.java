@@ -14,34 +14,33 @@ public class Stop {
         this.plugin = ds;
     }
 
-    public void dealWithLeftoverGames(String loser, boolean died) {
-        if (plugin.match.containsKey(loser)) {
-            String winner = plugin.match.get(loser);
+    public void dealWithLeftoverGames(Player loser, boolean died) {
+        if (plugin.match.containsKey(loser.getName())) {
+            Player winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
             cleanUp(loser, winner, died);
-        } else if (plugin.match.containsValue(loser)) {
-            String pkey = "nobody";
+        } else if (plugin.match.containsValue(loser.getName())) {
+            Player winner = null;
             for (String key : plugin.match.keySet()) {
-                if (plugin.match.get(key).equals(loser)) {
-                    pkey = key;
+                if (plugin.match.get(key).equals(loser.getName())) {
+                    winner = plugin.getServer().getPlayerExact(key);
                 }
             }
-            cleanUp(loser, pkey, died);
+            cleanUp(loser, winner, died);
         }
     }
 
-    public void cleanUp(String loser, String winner, boolean died) {
+    public void cleanUp(Player loser, Player winner, boolean died) {
         DeathSwapWinEvent dswe = new DeathSwapWinEvent(winner, loser);
         Bukkit.getServer().getPluginManager().callEvent(dswe);
-        Player other = plugin.getServer().getPlayer(winner);
         //JOPHESTUS IS AWESOME
-        plugin.utility.broadcast(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gameend").replace("%WINNER%", winner).replace("%LOSER%", loser)));
+        plugin.utility.broadcast(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gameend").replace("%WINNER%", winner.getName()).replace("%LOSER%", loser.getName())));
         if (died) {
             plugin.utility.message(loser + " died, you win!", winner);
         } else {
             plugin.utility.message(loser + " has left the game, you win!", winner);
         }
         plugin.game.remove(winner);
-        plugin.utility.playerReset(other);
+        plugin.utility.playerReset(winner);
         plugin.utility.teleport(winner, 1);
         plugin.match.remove(loser);
         plugin.startgame.remove(loser);

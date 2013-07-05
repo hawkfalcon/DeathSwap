@@ -15,8 +15,8 @@ public class Utility {
         this.plugin = ds;
     }
 
-    public void message(String message, String sender) {
-        plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
+    public void message(String message, Player player) {
+        player.sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
     }
 
     public void broadcast(String message) {
@@ -30,24 +30,24 @@ public class Utility {
     }
 
     // 0=lobby 1=arena
-    public void teleport(String n, int spawn) {
+    public void teleport(Player player, int spawn) {
         if (spawn == 0) {
             String cloc = plugin.getConfig().getString("lobby_spawn");
-            runTp(n, cloc);
+            runTp(player, cloc);
         }
         if (spawn == 1) {
             String cloc = plugin.getConfig().getString("end_spawn");
-            runTp(n, cloc);
+            runTp(player, cloc);
         }
     }
 
-    public void runTp(String n, String cloc) {
+    public void runTp(Player player, String cloc) {
         if (!(cloc.equals("world,0,0,0,0,0"))) {
-            plugin.getServer().getPlayer(n).teleport(plugin.loc.getLocation(cloc));
+            player.teleport(plugin.loc.getLocation(cloc));
         } else {
-            plugin.utility.message(ChatColor.RED + "You must set spawn points with /ds set <lobby/end> first!", n);
-            plugin.utility.broadcastLobby(n + " left the game!");
-            plugin.lobby.remove(n);
+            plugin.utility.message(ChatColor.RED + "You must set spawn points with /ds set <lobby/end> first!", player);
+            plugin.utility.broadcastLobby(player.getName() + " left the game!");
+            plugin.lobby.remove(player.getName());
         }
     }
 
@@ -77,8 +77,8 @@ public class Utility {
     public void checkForStart() {
         int size = plugin.lobby.size();
         if (size > 1) {
-            String playerone = plugin.lobby.get(0);
-            String playertwo = plugin.lobby.get(1);
+            Player playerone = plugin.getServer().getPlayerExact(plugin.lobby.get(0));
+            Player playertwo = plugin.getServer().getPlayerExact(plugin.lobby.get(1));
             plugin.start.newGame(playerone, playertwo);
         }
     }

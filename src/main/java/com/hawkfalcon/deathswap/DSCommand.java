@@ -23,7 +23,7 @@ public class DSCommand implements CommandExecutor {
         Player player = (Player) sender;
         if ((cmd.getName().equalsIgnoreCase("ds")) || (cmd.getName().equalsIgnoreCase("deathswap"))) {
             if (args.length == 0) {
-                plugin.utility.message("Join with /ds join", name);
+                plugin.utility.message("Join with /ds join", player);
             }
         }
         if (args.length == 1) {
@@ -34,22 +34,22 @@ public class DSCommand implements CommandExecutor {
             }
             if (args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
                 if (plugin.lobby.contains(name)) {
-                    plugin.utility.message("You left the game!", name);
+                    plugin.utility.message("You left the game!", player);
                     plugin.utility.broadcastLobby(name + " left the game!");
                     plugin.lobby.remove(name);
-                    plugin.utility.teleport(name, 1);
+                    plugin.utility.teleport(player, 1);
                 }
                 if (plugin.game.contains(name)) {
                     plugin.game.remove(name);
-                    plugin.stop.dealWithLeftoverGames(name, false);
+                    plugin.stop.dealWithLeftoverGames(player, false);
                     player.getInventory().clear();
                     plugin.utility.clearArmor(player);
-                    plugin.utility.teleport(name, 1);
+                    plugin.utility.teleport(player, 1);
                 }
             }
             if (args[0].equalsIgnoreCase("accept") && player.hasPermission("deathswap.accept")) {
                 if (plugin.accept.containsKey(name)) {
-                    plugin.start.newGame(plugin.accept.get(name), name);
+                    plugin.start.newGame(plugin.getServer().getPlayerExact(plugin.accept.get(name)), player);
                     plugin.accept.remove(name);
                 }
             }
@@ -67,30 +67,29 @@ public class DSCommand implements CommandExecutor {
                     return false;
                 }
                 plugin.saveConfig();
-                plugin.utility.message(ChatColor.GOLD + "Spawn point set!", name);
+                plugin.utility.message(ChatColor.GOLD + "Spawn point set!", player);
             }
             if (args[0].equalsIgnoreCase("duel") && player.hasPermission("deathswap.duel")) {
-                Player pl = plugin.getServer().getPlayer(args[1]);
-                String o = args[1];
-                if (pl == null || pl.getName().equals(name) || plugin.game.contains(pl.getName())) {
+                Player accepter = plugin.getServer().getPlayer(args[1]);
+                if (accepter == null || accepter.getName().equals(name) || plugin.game.contains(accepter.getName())) {
                     sender.sendMessage("Invalid Player");
                 } else {
-                    startAccept(name, o);
+                    startAccept(accepter, player);
                 }
             }
         }
         return false;
     }
 
-    public void startAccept(final String n, String o) {
-        plugin.utility.message(n + " wishes to play DeathSwap with you, type /ds accept to play!", o);
-        plugin.utility.message("Request to play sent!", n);
-        plugin.accept.put(o, n);
+    public void startAccept(final Player requester, Player accepter) {
+        plugin.utility.message(requester.getName() + " wishes to play DeathSwap with you, type /ds accept to play!", accepter);
+        plugin.utility.message("Request to play sent!", requester);
+        plugin.accept.put(accepter.getName(), requester.getName());
         new BukkitRunnable() {
 
             @Override
             public void run() {
-                plugin.accept.remove(n);
+                plugin.accept.remove(requester.getName());
             }
 
         }.runTaskLater(plugin, 200L);

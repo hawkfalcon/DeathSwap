@@ -74,12 +74,12 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void noCommands(PlayerCommandPreprocessEvent event) {
-        String n = event.getPlayer().getName();
-        if (plugin.game.contains(n)) {
+        Player player = event.getPlayer();
+        if (plugin.game.contains(player.getName())) {
             if (!event.getPlayer().hasPermission("deathswap.bypass")) {
                 if (!event.getMessage().toLowerCase().startsWith("/ds")) {
                     event.setCancelled(true);
-                    plugin.utility.message(ChatColor.RED + "You can't use commands while playing!", n);
+                    plugin.utility.message(ChatColor.RED + "You can't use commands while playing!", player);
                 }
             }
         }
@@ -87,10 +87,10 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        String n = ((Player) event.getEntity()).getName();
-        if (plugin.game.contains(n)) {
-            plugin.utility.message("You died, you lose!", n);
-            plugin.stop.dealWithLeftoverGames(n, true);
+        Player player = (Player) event.getEntity();
+        if (plugin.game.contains(player.getName())) {
+            plugin.utility.message("You died, you lose!", player);
+            plugin.stop.dealWithLeftoverGames(player, true);
         }
     }
 
@@ -112,16 +112,17 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        String name = event.getPlayer().getName();
+        Player player = event.getPlayer();
+        String name = player.getName();
         if (plugin.lobby.contains(name)) {
             plugin.loggedoff.add(name);
-            plugin.utility.message("You left the game!", name);
+            plugin.utility.message("You left the game!", player);
             plugin.utility.broadcastLobby(name + " left the game!");
             plugin.lobby.remove(name);
         }
         if (plugin.game.contains(name)) {
             plugin.loggedoff.add(name);
-            plugin.stop.dealWithLeftoverGames(name, false);
+            plugin.stop.dealWithLeftoverGames(player, false);
             plugin.lobby.remove(name);
             plugin.game.remove(name);
         }
@@ -134,17 +135,17 @@ public class DSListener implements Listener {
         if (plugin.loggedoff.contains(name)) {
             player.getInventory().clear();
             plugin.utility.clearArmor(player);
-            plugin.utility.teleport(name, 0);
+            plugin.utility.teleport(player, 0);
         }
         plugin.loggedoff.remove(name);
         //
         if (plugin.getConfig().getBoolean("auto_join")) {
-            plugin.utility.message("You joined the game!", name);
+            plugin.utility.message("You joined the game!", player);
             plugin.utility.broadcastLobby(name + " joined the game!");
             // mark as in lobby
             plugin.lobby.add(name);
             // teleport to lobby
-            plugin.utility.teleport(name, 0);
+            plugin.utility.teleport(player, 0);
             plugin.utility.checkForStart();
         }
     }

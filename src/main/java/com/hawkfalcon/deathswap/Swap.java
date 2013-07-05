@@ -19,15 +19,13 @@ public class Swap {
     public void switchPlayers() {
         DeathSwapSwapEvent dsse = new DeathSwapSwapEvent();
         Bukkit.getServer().getPluginManager().callEvent(dsse);
-        for (String n : plugin.match.keySet()) {
-            final String n_one = n;
-            final String n_two = plugin.match.get(n);
+        for (String name : plugin.match.keySet()) {
+            final Player pone = plugin.getServer().getPlayer(name);
+            final Player ptwo = plugin.getServer().getPlayer(plugin.match.get(name));
             // skips the first swap
-            if (!plugin.startgame.contains(n_one)) {
-                final Player pone = plugin.getServer().getPlayer(n_one);
-                final Player ptwo = plugin.getServer().getPlayer(n_two);
-                switchUtil(n_one, pone);
-                switchUtil(n_two, ptwo);
+            if (!plugin.startgame.contains(name)) {                
+                switchUtil(pone);
+                switchUtil(ptwo);
                 final Location locone = pone.getLocation();
                 final Location loctwo = ptwo.getLocation();
                 new BukkitRunnable() {
@@ -44,14 +42,14 @@ public class Swap {
                     }
                 }.runTaskLater(plugin, 1L);
             } else {
-                plugin.startgame.remove(n_one);
+                plugin.startgame.remove(name);
             }
         }
 
     }
 
-    public void switchUtil(String n, Player player) {
-        plugin.utility.message(ChatColor.BOLD + "Commencing swap!", n);
+    public void switchUtil(Player player) {
+        plugin.utility.message(ChatColor.BOLD + "Commencing swap!", player);
         if (player.getVehicle() != null) {
             player.leaveVehicle();
         }

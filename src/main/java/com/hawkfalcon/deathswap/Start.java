@@ -14,21 +14,23 @@ public class Start {
         this.plugin = ds;
     }
 
-    public void newGame(String n_one, String n_two) {
-        DeathSwapNewGameEvent dsnge = new DeathSwapNewGameEvent(n_one, n_two);
+    public void newGame(Player playerone, Player playertwo) {
+        String nameone = playerone.getName();
+        String nametwo = playertwo.getName();
+        DeathSwapNewGameEvent dsnge = new DeathSwapNewGameEvent(playerone, playertwo);
         Bukkit.getServer().getPluginManager().callEvent(dsnge);
-        plugin.utility.broadcast(ChatColor.DARK_AQUA + "Game started with " + n_one + " and " + n_two + "!");
-        plugin.match.put(n_one, n_two);
-        plugin.loc.randomTeleport(n_one, n_two);
-        newGameUtils(n_one);
-        newGameUtils(n_two);
-        plugin.startgame.add(n_one);
+        plugin.utility.broadcast(ChatColor.DARK_AQUA + "Game started with " + nameone + " and " + nametwo + "!");
+        plugin.match.put(nameone, nametwo);
+        plugin.loc.randomTeleport(playerone, playertwo);
+        newGameUtils(playerone);
+        newGameUtils(playertwo);
+        plugin.startgame.add(nameone);
     }
 
-    public void newGameUtils(String n) {
-        Player pl = plugin.getServer().getPlayer(n);
-        plugin.lobby.remove(n);
-        plugin.game.add(n);
-        plugin.utility.playerReset(pl);
+    public void newGameUtils(Player player) {
+        String name = player.getName();
+        plugin.lobby.remove(name);
+        plugin.game.add(name);
+        plugin.utility.playerReset(player);
     }
 }
