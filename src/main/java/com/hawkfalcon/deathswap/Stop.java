@@ -38,16 +38,16 @@ public class Stop {
         //JOPHESTUS IS AWESOME
         plugin.utility.broadcast(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gameend").replace("%WINNER%", winner.getName()).replace("%LOSER%", loser.getName())));
         if (died) {
-            plugin.utility.message(loser + " died, you win!", winner);
+            plugin.utility.message(loser.getName() + " died, you win!", winner);
         } else {
-            plugin.utility.message(loser + " has left the game, you win!", winner);
+            plugin.utility.message(loser.getName() + " has left the game, you win!", winner);
         }
-        plugin.game.remove(winner);
+        plugin.game.remove(winner.getName());
         plugin.utility.playerReset(winner);
         plugin.utility.teleport(winner, 1);
-        plugin.match.remove(loser);
-        plugin.startgame.remove(loser);
-        plugin.match.remove(winner);
-        plugin.startgame.remove(winner);
+        plugin.match.remove(loser.getName());
+        plugin.startgame.remove(loser.getName());
+        plugin.match.remove(winner.getName());
+        plugin.startgame.remove(winner.getName());
     }
 }
