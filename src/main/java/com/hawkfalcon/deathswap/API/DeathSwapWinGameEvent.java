@@ -1,15 +1,15 @@
 package com.hawkfalcon.deathswap.API;
 
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class DeathSwapWinEvent extends Event {
+public class DeathSwapWinGameEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
-    private String winner;
-    private String loser;
+    private Player winner;
+    private Player loser;
     
-    @Deprecated 
-    public DeathSwapWinEvent(String winner, String loser) {
+    public DeathSwapWinGameEvent(Player winner, Player loser) {
         this.winner = winner;
         this.loser = loser;
     }
@@ -22,11 +22,11 @@ public class DeathSwapWinEvent extends Event {
         return handlers;
     }
 
-    public String getWinner() {
+    public Player getWinner() {
         return this.winner;
     }
 
-    public String getLoser() {
+    public Player getLoser() {
         return this.loser;
     }
 }

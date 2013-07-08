@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.hawkfalcon.deathswap.API.DeathSwapWinEvent;
+import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
 
 public class Stop {
 
@@ -30,8 +31,10 @@ public class Stop {
     }
 
     public void cleanUp(Player loser, Player winner, boolean died) {
-        DeathSwapWinEvent dswe = new DeathSwapWinEvent(winner, loser);
+        DeathSwapWinEvent dswe = new DeathSwapWinEvent(winner.getName(), loser.getName());
         Bukkit.getServer().getPluginManager().callEvent(dswe);
+        DeathSwapWinGameEvent dswge = new DeathSwapWinGameEvent(winner, loser);
+        Bukkit.getServer().getPluginManager().callEvent(dswge);
         //JOPHESTUS IS AWESOME
         plugin.utility.broadcast(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("gameend").replace("%WINNER%", winner.getName()).replace("%LOSER%", loser.getName())));
         if (died) {
