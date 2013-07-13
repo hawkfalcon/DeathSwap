@@ -33,12 +33,12 @@ public class DeathSwapNewGameEvent extends Event {
     public Player getPlayerTwo() {
         return this.playertwo;
     }
-    
+
     @Deprecated
     public String getNameOne() {
         return this.nameone;
     }
-    
+
     @Deprecated
     public String getNameTwo() {
         return this.nametwo;

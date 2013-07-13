@@ -15,13 +15,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.*;
 
 public class DSListener implements Listener {
 
@@ -103,8 +97,6 @@ public class DSListener implements Listener {
             event.setRespawnLocation(cloc);
         }
         if (plugin.game.contains(name)) {
-            plugin.game.remove(name);
-            plugin.utility.playerReset(player);
             Location cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
             event.setRespawnLocation(cloc);
         }
@@ -173,6 +165,7 @@ public class DSListener implements Listener {
             }
         }
     }
+
     @EventHandler
     public void onEntitysDamage(EntityDamageByEntityEvent event) {
         if (event.getEntity() instanceof Player) {

@@ -1,7 +1,5 @@
 package com.hawkfalcon.deathswap;
 
-import java.util.Random;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,6 +7,8 @@ import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Random;
 
 public class Loc {
 
@@ -60,11 +60,9 @@ public class Loc {
         player.teleport(loc);
     }
 
-    public int count;
-
-    public void countdown(int time, final Location locone, final Location loctwo, final Player playerone, final Player playertwo) {
-        count = time;
+    public void countdown(final int time, final Location locone, final Location loctwo, final Player playerone, final Player playertwo) {
         new BukkitRunnable() {
+            int count = time;
 
             @Override
             public void run() {
@@ -89,21 +87,32 @@ public class Loc {
             world = center.getWorld();
         }
         Random rand = new Random();
-        int rad = plugin.getConfig().getInt("random_spawn_radius");
-        int min = -(rad / 100);
-        int max = rad / 100;
+        int rad = plugin.getConfig().getInt("random_spawn_radius", 100000);
+        int apart = plugin.getConfig().getInt("random_spawn_distance_apart", 100);
+        int timeouts = plugin.getConfig().getInt("timeout", 60);
+        int min = -(rad / apart);
+        int max = rad / apart;
         double x = 0;
         double y = 0;
         double z = 0;
         Material below = null;
         Material above = null;
+        long startTime = System.currentTimeMillis();
+        int timeout = timeouts * 1000;
         while (true) {
             if (below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
-                x = (rand.nextInt(max - min + 1) + min) * 100;
-                z = (rand.nextInt(max - min + 1) + min) * 100;
+                x = (rand.nextInt(max - min + 1) + min) * apart;
+                z = (rand.nextInt(max - min + 1) + min) * apart;
                 y = world.getHighestBlockAt((int) x, (int) z).getY();
                 below = world.getBlockAt((int) x, (int) y - 1, (int) z).getType();
                 above = world.getBlockAt((int) x, (int) y + 1, (int) z).getType();
+                timeout--;
+            } else if (timeout == 0) {
+                plugin.utility.broadcast("DeathSwap timed out. This usually occurs when the radius is too small. Please increase the radius. Aborting game.");
+                x = 0;
+                z = 0;
+                y = 0;
+                break;
             } else {
                 break;
             }

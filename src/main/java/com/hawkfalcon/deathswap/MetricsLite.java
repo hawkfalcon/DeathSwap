@@ -28,25 +28,20 @@ package com.hawkfalcon.deathswap;
  * either expressed or implied, of anybody else.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.Proxy;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.UUID;
-import java.util.logging.Level;
-
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.io.*;
+import java.net.Proxy;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.UUID;
+import java.util.logging.Level;
 
 public class MetricsLite {
 
@@ -137,7 +132,7 @@ public class MetricsLite {
      * repeating task as the plugin and send the initial data to the metrics
      * backend, and then after that it will post in increments of
      * PING_INTERVAL * 1200 ticks.
-     * 
+     *
      * @return True if statistics measuring is running, otherwise false.
      */
     public boolean start() {
@@ -192,7 +187,7 @@ public class MetricsLite {
 
     /**
      * Has the server owner denied plugin metrics?
-     * 
+     *
      * @return true if metrics should be opted out of it
      */
     public boolean isOptOut() {
@@ -218,7 +213,7 @@ public class MetricsLite {
     /**
      * Enables metrics for the server by setting "opt-out" to false in the
      * config file and starting the metrics task.
-     * 
+     *
      * @throws java.io.IOException
      */
     public void enable() throws IOException {
@@ -240,7 +235,7 @@ public class MetricsLite {
     /**
      * Disables metrics for the server by setting "opt-out" to true in the
      * config file and canceling the metrics task.
-     * 
+     *
      * @throws java.io.IOException
      */
     public void disable() throws IOException {
@@ -263,7 +258,7 @@ public class MetricsLite {
     /**
      * Gets the File object of the config file that should be used to store
      * data such as the GUID and opt-out status
-     * 
+     *
      * @return the File object for the config file
      */
     public File getConfigFile() {
@@ -366,7 +361,7 @@ public class MetricsLite {
     /**
      * Check if mineshafter is present. If it is, we need to bypass it to send
      * POST requests
-     * 
+     *
      * @return true if mineshafter is installed on the server
      */
     private boolean isMineshafterPresent() {
@@ -389,10 +384,10 @@ public class MetricsLite {
      * data.append(encode("guid")).append('=').append(encode(guid));
      * encodeDataPair(data, "version", description.getVersion());
      * </code>
-     * 
+     *
      * @param buffer the stringbuilder to append the data pair onto
-     * @param key the key value
-     * @param value the value
+     * @param key    the key value
+     * @param value  the value
      */
     private static void encodeDataPair(final StringBuilder buffer, final String key, final String value) throws UnsupportedEncodingException {
         buffer.append('&').append(encode(key)).append('=').append(encode(value));
@@ -400,7 +395,7 @@ public class MetricsLite {
 
     /**
      * Encode text as UTF-8
-     * 
+     *
      * @param text the text to encode
      * @return the encoded text, as UTF-8
      */

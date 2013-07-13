@@ -1,14 +1,14 @@
 package com.hawkfalcon.deathswap;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 
 public class DeathSwap extends JavaPlugin {
@@ -21,6 +21,7 @@ public class DeathSwap extends JavaPlugin {
 
     HashMap<String, String> match = new HashMap<String, String>();
     HashMap<String, String> accept = new HashMap<String, String>();
+    HashMap<String, String> inventory = new HashMap<String, String>();
     public ArrayList<String> game = new ArrayList<String>();
     public ArrayList<String> lobby = new ArrayList<String>();
     ArrayList<String> loggedoff = new ArrayList<String>();

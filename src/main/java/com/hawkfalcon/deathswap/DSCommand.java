@@ -74,7 +74,7 @@ public class DSCommand implements CommandExecutor {
                 if (accepter == null || accepter.getName().equals(name) || plugin.game.contains(accepter.getName())) {
                     sender.sendMessage("Invalid Player");
                 } else {
-                    startAccept(accepter, player);
+                    startAccept(player, accepter);
                 }
             }
         }

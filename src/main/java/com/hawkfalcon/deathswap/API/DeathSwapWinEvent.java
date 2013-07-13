@@ -7,8 +7,8 @@ public class DeathSwapWinEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private String winner;
     private String loser;
-    
-    @Deprecated 
+
+    @Deprecated
     public DeathSwapWinEvent(String winner, String loser) {
         this.winner = winner;
         this.loser = loser;

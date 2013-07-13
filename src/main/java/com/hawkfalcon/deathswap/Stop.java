@@ -1,11 +1,11 @@
 package com.hawkfalcon.deathswap;
 
+import com.hawkfalcon.deathswap.API.DeathSwapWinEvent;
+import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import com.hawkfalcon.deathswap.API.DeathSwapWinEvent;
-import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
+import org.bukkit.inventory.Inventory;
 
 public class Stop {
 
@@ -42,12 +42,17 @@ public class Stop {
         } else {
             plugin.utility.message(loser.getName() + " has left the game, you win!", winner);
         }
-        plugin.game.remove(winner.getName());
-        plugin.utility.playerReset(winner);
         plugin.utility.teleport(winner, 1);
-        plugin.match.remove(loser.getName());
-        plugin.startgame.remove(loser.getName());
-        plugin.match.remove(winner.getName());
-        plugin.startgame.remove(winner.getName());
+        restore(loser);
+        restore(winner);
+    }
+
+    public void restore(Player player) {
+        String name = player.getName();
+        plugin.utility.playerReset(player);
+        plugin.match.remove(name);
+        plugin.startgame.remove(name);
+        Inventory i = plugin.utility.stringToInventory(plugin.inventory.get(name));
+        player.getInventory().setContents(i.getContents());
     }
 }
