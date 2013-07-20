@@ -19,11 +19,7 @@ public class Leave {
             plugin.utility.teleport(player, 1);
         }
         if (plugin.game.contains(name)) {
-            plugin.game.remove(name);
-            plugin.winGame.winGame(player, false);
-            player.getInventory().clear();
-            plugin.utility.clearArmor(player);
-            plugin.utility.teleport(player, 1);
+            plugin.utility.playerReset(player);
         }
     }
 }
