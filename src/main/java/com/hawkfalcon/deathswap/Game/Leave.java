@@ -10,6 +10,7 @@ public class Leave {
     public Leave(DeathSwap ds) {
         this.plugin = ds;
     }
+
     public void leave(Player player) {
         String name = player.getName();
         if (plugin.lobby.contains(name)) {

@@ -6,7 +6,6 @@ import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 public class WinGame {
 
@@ -19,9 +18,9 @@ public class WinGame {
     public Player getWinner(Player loser) {
         Player winner = null;
         if (plugin.match.containsKey(loser.getName())) {
-             winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
+            winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
         } else if (plugin.match.containsValue(loser.getName())) {
-             winner = null;
+            winner = null;
             for (String key : plugin.match.keySet()) {
                 if (plugin.match.get(key).equals(loser.getName())) {
                     winner = plugin.getServer().getPlayerExact(key);

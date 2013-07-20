@@ -28,7 +28,7 @@ public class DSCommand implements CommandExecutor {
         }
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
-                    plugin.join.join(player);
+                plugin.join.join(player);
             }
             if (args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
                 plugin.leave.leave(player);

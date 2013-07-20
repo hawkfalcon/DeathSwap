@@ -16,7 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class DSListener implements Listener {
 
@@ -91,18 +91,24 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
         String name = player.getName();
         Location cloc = null;
         if (plugin.lobby.contains(name)) {
-             cloc = plugin.loc.getLocation(plugin.getConfig().getString("lobby_spawn"));
+            cloc = plugin.loc.getLocation(plugin.getConfig().getString("lobby_spawn"));
             event.setRespawnLocation(cloc);
         }
         if (plugin.game.contains(name)) {
-             cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
+            cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
+            event.setRespawnLocation(cloc);
         }
-        event.setRespawnLocation(cloc);
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
         plugin.utility.restorePlayer(player);
+            }
+        }.runTaskLater(plugin, 1L);
     }
 
     @EventHandler
