@@ -28,28 +28,14 @@ public class DSCommand implements CommandExecutor {
         }
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
-                if (!plugin.game.contains(name) && !plugin.lobby.contains(name)) {
-                    plugin.join(player);
-                }
+                    plugin.join.join(player);
             }
             if (args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
-                if (plugin.lobby.contains(name)) {
-                    plugin.utility.message("You left the game!", player);
-                    plugin.utility.broadcastLobby(name + " left the game!");
-                    plugin.lobby.remove(name);
-                    plugin.utility.teleport(player, 1);
-                }
-                if (plugin.game.contains(name)) {
-                    plugin.game.remove(name);
-                    plugin.stop.dealWithLeftoverGames(player, false);
-                    player.getInventory().clear();
-                    plugin.utility.clearArmor(player);
-                    plugin.utility.teleport(player, 1);
-                }
+                plugin.leave.leave(player);
             }
             if (args[0].equalsIgnoreCase("accept") && player.hasPermission("deathswap.accept")) {
                 if (plugin.accept.containsKey(name)) {
-                    plugin.start.newGame(plugin.getServer().getPlayerExact(plugin.accept.get(name)), player);
+                    plugin.newGame.newGame(plugin.getServer().getPlayerExact(plugin.accept.get(name)), player);
                     plugin.accept.remove(name);
                 }
             }

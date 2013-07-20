@@ -1,6 +1,7 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.deathswap.Game;
 
 import com.hawkfalcon.deathswap.API.DeathSwapSwapEvent;
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

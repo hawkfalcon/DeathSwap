@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.deathswap.Utilities;
 
 /*
  * Copyright 2011-2013 Tyler Blair. All rights reserved.
@@ -128,7 +128,7 @@ public class MetricsLite {
     }
 
     /**
-     * Start measuring statistics. This will immediately create an async
+     * NewGame measuring statistics. This will immediately create an async
      * repeating task as the plugin and send the initial data to the metrics
      * backend, and then after that it will post in increments of
      * PING_INTERVAL * 1200 ticks.

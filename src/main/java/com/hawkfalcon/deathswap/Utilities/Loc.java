@@ -1,5 +1,6 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.deathswap.Utilities;
 
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

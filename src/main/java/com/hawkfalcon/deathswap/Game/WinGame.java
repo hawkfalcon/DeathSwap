@@ -1,36 +1,38 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.deathswap.Game;
 
 import com.hawkfalcon.deathswap.API.DeathSwapWinEvent;
 import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public class Stop {
+public class WinGame {
 
     public DeathSwap plugin;
 
-    public Stop(DeathSwap ds) {
+    public WinGame(DeathSwap ds) {
         this.plugin = ds;
     }
 
-    public void dealWithLeftoverGames(Player loser, boolean died) {
+    public Player getWinner(Player loser) {
+        Player winner = null;
         if (plugin.match.containsKey(loser.getName())) {
-            Player winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
-            cleanUp(loser, winner, died);
+             winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
         } else if (plugin.match.containsValue(loser.getName())) {
-            Player winner = null;
+             winner = null;
             for (String key : plugin.match.keySet()) {
                 if (plugin.match.get(key).equals(loser.getName())) {
                     winner = plugin.getServer().getPlayerExact(key);
                 }
             }
-            cleanUp(loser, winner, died);
         }
+        return winner;
     }
 
-    public void cleanUp(Player loser, Player winner, boolean died) {
+    public void winGame(Player loser, boolean died) {
+        Player winner = getWinner(loser);
         DeathSwapWinEvent dswe = new DeathSwapWinEvent(winner.getName(), loser.getName());
         Bukkit.getServer().getPluginManager().callEvent(dswe);
         DeathSwapWinGameEvent dswge = new DeathSwapWinGameEvent(winner, loser);
@@ -42,17 +44,8 @@ public class Stop {
         } else {
             plugin.utility.message(loser.getName() + " has left the game, you win!", winner);
         }
-        plugin.utility.teleport(winner, 1);
-        restore(loser);
-        restore(winner);
+        plugin.leave.leave(winner);
     }
 
-    public void restore(Player player) {
-        String name = player.getName();
-        plugin.utility.playerReset(player);
-        plugin.match.remove(name);
-        plugin.startgame.remove(name);
-        Inventory i = plugin.utility.stringToInventory(plugin.inventory.get(name));
-        player.getInventory().setContents(i.getContents());
-    }
+
 }

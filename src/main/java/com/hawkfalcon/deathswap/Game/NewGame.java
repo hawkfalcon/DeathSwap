@@ -1,15 +1,16 @@
-package com.hawkfalcon.deathswap;
+package com.hawkfalcon.deathswap.Game;
 
 import com.hawkfalcon.deathswap.API.DeathSwapNewGameEvent;
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class Start {
+public class NewGame {
 
     public DeathSwap plugin;
 
-    public Start(DeathSwap ds) {
+    public NewGame(DeathSwap ds) {
         this.plugin = ds;
     }
 
@@ -30,7 +31,7 @@ public class Start {
         String name = player.getName();
         plugin.lobby.remove(name);
         plugin.game.add(name);
-        plugin.inventory.put(player.getName(), plugin.utility.inventoryToString(player.getInventory()));
+        plugin.inventorystorage.put(player.getName(), plugin.inventory.inventoryToString(player.getInventory()));
         plugin.utility.playerReset(player);
     }
 }

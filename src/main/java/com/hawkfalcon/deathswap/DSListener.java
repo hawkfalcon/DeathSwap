@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.Inventory;
 
 public class DSListener implements Listener {
 
@@ -33,7 +34,7 @@ public class DSListener implements Listener {
                 Sign sign = (Sign) block.getState();
                 if (sign.getLine(0).equalsIgnoreCase("[DeathSwap]") && sign.getLine(1).equalsIgnoreCase("join")) {
                     Player player = event.getPlayer();
-                    plugin.join(player);
+                    plugin.join.join(player);
                 }
             }
         }
@@ -84,7 +85,7 @@ public class DSListener implements Listener {
         Player player = (Player) event.getEntity();
         if (plugin.game.contains(player.getName())) {
             plugin.utility.message("You died, you lose!", player);
-            plugin.stop.dealWithLeftoverGames(player, true);
+            plugin.winGame.winGame(player, true);
         }
     }
 
@@ -92,53 +93,29 @@ public class DSListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         String name = player.getName();
+        Location cloc = null;
         if (plugin.lobby.contains(name)) {
-            Location cloc = plugin.loc.getLocation(plugin.getConfig().getString("lobby_spawn"));
+             cloc = plugin.loc.getLocation(plugin.getConfig().getString("lobby_spawn"));
             event.setRespawnLocation(cloc);
         }
         if (plugin.game.contains(name)) {
-            Location cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
-            event.setRespawnLocation(cloc);
+             cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
         }
+        event.setRespawnLocation(cloc);
+        plugin.utility.restorePlayer(player);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        String name = player.getName();
-        if (plugin.lobby.contains(name)) {
-            plugin.loggedoff.add(name);
-            plugin.utility.message("You left the game!", player);
-            plugin.utility.broadcastLobby(name + " left the game!");
-            plugin.lobby.remove(name);
-        }
-        if (plugin.game.contains(name)) {
-            plugin.loggedoff.add(name);
-            plugin.stop.dealWithLeftoverGames(player, false);
-            plugin.lobby.remove(name);
-            plugin.game.remove(name);
-        }
+        plugin.leave.leave(player);
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        String name = event.getPlayer().getName();
-        if (plugin.loggedoff.contains(name)) {
-            player.getInventory().clear();
-            plugin.utility.clearArmor(player);
-            plugin.utility.teleport(player, 0);
-        }
-        plugin.loggedoff.remove(name);
-        //
         if (plugin.getConfig().getBoolean("auto_join")) {
-            plugin.utility.message("You joined the game!", player);
-            plugin.utility.broadcastLobby(name + " joined the game!");
-            // mark as in lobby
-            plugin.lobby.add(name);
-            // teleport to lobby
-            plugin.utility.teleport(player, 0);
-            plugin.utility.checkForStart();
+            plugin.join.join(player);
         }
     }
 
@@ -148,7 +125,7 @@ public class DSListener implements Listener {
         String name = event.getPlayer().getName();
         if (plugin.game.contains(name)) {
             if (plugin.getConfig().getBoolean("chat_prefix")) {
-                event.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix") + "<" + name + ">" + message));
+                event.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix") + "<" + name + "> " + message));
             }
         }
     }
