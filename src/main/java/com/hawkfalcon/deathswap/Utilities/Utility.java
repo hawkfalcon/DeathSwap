@@ -2,12 +2,8 @@ package com.hawkfalcon.deathswap.Utilities;
 
 import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.*;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.Map;
 
 public class Utility {
 
@@ -94,8 +90,10 @@ public class Utility {
         plugin.match.remove(name);
         plugin.game.remove(name);
         plugin.startgame.remove(name);
-        Inventory i = plugin.inventory.stringToInventory(plugin.inventorystorage.get(name));
-        player.getInventory().setContents(i.getContents());
+        if (plugin.getConfig().getBoolean("save_inventory")) {
+            Inventory i = plugin.inventory.stringToInventory(plugin.inventorystorage.get(name));
+            player.getInventory().setContents(i.getContents());
+        }
     }
 
 

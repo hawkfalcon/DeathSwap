@@ -28,6 +28,9 @@ auto_join: false
 #countdown before teleporting
 countdown: false
 
+#Save inventory
+save_inventory: true
+
 #Prefix
 prefix: '&4&l[&6Death&aSwap&4&l]&r'
 
