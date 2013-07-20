@@ -20,7 +20,7 @@ public class Leave {
             plugin.utility.teleport(player, 1);
         }
         if (plugin.game.contains(name)) {
-            plugin.utility.playerReset(player);
+            plugin.utility.restorePlayer(player);
         }
     }
 }
