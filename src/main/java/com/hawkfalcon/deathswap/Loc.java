@@ -74,7 +74,7 @@ public class Loc {
                 if (count == 0) {
                     this.cancel();
                     tpPlayer(locone, playerone);
-                    tpPlayer(loctwo, playerone);
+                    tpPlayer(loctwo, playertwo);
                 }
             }
 
