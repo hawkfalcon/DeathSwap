@@ -21,6 +21,7 @@ public class Leave {
         }
         if (plugin.game.contains(name)) {
             plugin.utility.restorePlayer(player);
+            plugin.utility.teleport(player, 1);
         }
     }
 }
