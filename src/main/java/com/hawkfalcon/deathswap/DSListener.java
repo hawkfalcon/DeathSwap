@@ -115,7 +115,7 @@ public class DSListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         plugin.winGame.winGame(player, false);
-        plugin.leave.leave(player);
+        plugin.utility.restorePlayer(player);
     }
 
     @EventHandler
