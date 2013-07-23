@@ -113,7 +113,7 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
+        final Player player = event.getPlayer();
         plugin.winGame.winGame(player, false);
         plugin.utility.restorePlayer(player);
     }

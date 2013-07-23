@@ -15,7 +15,7 @@ public class WinGame {
         this.plugin = ds;
     }
 
-    public Player getWinner(Player loser) {
+    public Player getWinner(final Player loser) {
         Player winner = null;
         if (plugin.match.containsKey(loser.getName())) {
             winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
@@ -30,8 +30,8 @@ public class WinGame {
         return winner;
     }
 
-    public void winGame(Player loser, boolean died) {
-        Player winner = getWinner(loser);
+    public void winGame(final Player loser, boolean died) {
+        final Player winner = getWinner(loser);
         DeathSwapWinEvent dswe = new DeathSwapWinEvent(winner.getName(), loser.getName());
         Bukkit.getServer().getPluginManager().callEvent(dswe);
         DeathSwapWinGameEvent dswge = new DeathSwapWinGameEvent(winner, loser);
