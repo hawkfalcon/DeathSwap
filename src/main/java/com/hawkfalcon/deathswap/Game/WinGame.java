@@ -45,6 +45,4 @@ public class WinGame {
         }
         plugin.leave.leave(winner);
     }
-
-
 }

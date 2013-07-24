@@ -1,5 +1,7 @@
 package com.hawkfalcon.deathswap;
 
+import com.hawkfalcon.deathswap.Game.NewGame;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -82,7 +84,7 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        Player player = (Player) event.getEntity();
+        Player player = event.getEntity();
         if (plugin.game.contains(player.getName())) {
             plugin.utility.message("You died, you lose!", player);
             plugin.winGame.winGame(player, true);
@@ -114,8 +116,10 @@ public class DSListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         final Player player = event.getPlayer();
-        plugin.winGame.winGame(player, false);
-        plugin.utility.restorePlayer(player);
+        if (plugin.game.contains(player.getName())) {
+            plugin.winGame.winGame(player, false);
+            plugin.utility.restorePlayer(player);
+        }
     }
 
     @EventHandler
