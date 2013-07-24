@@ -1,7 +1,6 @@
 package com.hawkfalcon.deathswap;
 
-import com.hawkfalcon.deathswap.Game.NewGame;
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,7 +16,13 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DSListener implements Listener {
@@ -42,7 +47,7 @@ public class DSListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
         if (plugin.lobby.contains(event.getPlayer().getName())) {
             if (!event.getPlayer().hasPermission("deathswap.bypass")) {
@@ -51,7 +56,7 @@ public class DSListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(BlockPlaceEvent event) {
         if (plugin.lobby.contains(event.getPlayer().getName())) {
             if (!event.getPlayer().hasPermission("deathswap.bypass")) {
@@ -76,7 +81,7 @@ public class DSListener implements Listener {
             if (!event.getPlayer().hasPermission("deathswap.bypass")) {
                 if (!event.getMessage().toLowerCase().startsWith("/ds")) {
                     event.setCancelled(true);
-                    plugin.utility.message(ChatColor.RED + "You can't use commands while playing!", player);
+                    plugin.utility.message(ChatColor.RED + "You can't use commands while playing! (Use /ds)", player);
                 }
             }
         }
@@ -98,17 +103,19 @@ public class DSListener implements Listener {
         Location cloc = null;
         if (plugin.lobby.contains(name)) {
             cloc = plugin.loc.getLocation(plugin.getConfig().getString("lobby_spawn"));
-            event.setRespawnLocation(cloc);
         }
         if (plugin.game.contains(name)) {
             cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
-            event.setRespawnLocation(cloc);
         }
+        if (cloc == null) {
+            cloc = Bukkit.getWorlds().get(0).getSpawnLocation();
+        }
+        event.setRespawnLocation(cloc);
         new BukkitRunnable() {
 
             @Override
             public void run() {
-        plugin.utility.restorePlayer(player);
+                plugin.utility.restorePlayer(player);
             }
         }.runTaskLater(plugin, 1L);
     }
@@ -132,11 +139,10 @@ public class DSListener implements Listener {
 
     @EventHandler
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
-        String message = event.getMessage();
         String name = event.getPlayer().getName();
         if (plugin.game.contains(name)) {
             if (plugin.getConfig().getBoolean("chat_prefix")) {
-                event.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix") + "<" + name + "> " + message));
+                event.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix") + " %s: %s"));
             }
         }
     }

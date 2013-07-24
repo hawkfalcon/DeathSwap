@@ -23,10 +23,18 @@ public class DSCommand implements CommandExecutor {
             if(args.length == 0) {
                 plugin.utility.message("Join with /ds join", player);
             } else if(args.length == 1) {
-                if(args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
-                    plugin.join.join(player);
-                } else if(args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
-                    plugin.leave.leave(player);
+                if(args[0].equalsIgnoreCase("join")) {
+                    if(player.hasPermission("deathswap.join")) {
+                        plugin.join.join(player);
+                    } else {
+                        plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);
+                    }
+                } else if(args[0].equalsIgnoreCase("leave")) {
+                    if(player.hasPermission("deathswap.leave")) {
+                        plugin.leave.leave(player);
+                    } else {
+                        plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);
+                    }
                 } else if(args[0].equalsIgnoreCase("accept")) {
                     if(player.hasPermission("deathswap.accept")) {
                         if(plugin.accept.containsKey(name)) {

@@ -28,7 +28,7 @@ public class Utility {
     }
 
     public void broadcastLobby(String message) {
-        for (String sender : plugin.lobby) {
+        for (String sender:plugin.lobby) {
             plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
         }
     }
@@ -97,10 +97,9 @@ public class Utility {
         plugin.game.remove(name);
         plugin.startgame.remove(name);
         if (plugin.getConfig().getBoolean("save_inventory")) {
-            Inventory i = plugin.inventory.stringToInventory(plugin.inventorystorage.get(name));
+            Inventory i = com.hawkfalcon.deathswap.Utilities.Inventory.stringToInventory(plugin.inventorystorage.get(name));
             player.getInventory().setContents(i.getContents());
         }
     }
-
 
 }
