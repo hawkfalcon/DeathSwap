@@ -18,11 +18,11 @@ public class Swap {
     }
 
     public void switchPlayers() {
-        DeathSwapSwapEvent dsse = new DeathSwapSwapEvent();
-        Bukkit.getServer().getPluginManager().callEvent(dsse);
         for (String name:plugin.match.keySet()) {
             final Player pone = plugin.getServer().getPlayer(name);
             final Player ptwo = plugin.getServer().getPlayer(plugin.match.get(name));
+            DeathSwapSwapEvent dsse = new DeathSwapSwapEvent(pone, ptwo);
+            Bukkit.getServer().getPluginManager().callEvent(dsse);
             // skips the first swap
             if (!plugin.startgame.contains(name)) {
                 switchUtil(pone);
