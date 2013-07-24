@@ -17,54 +17,62 @@ public class DSCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if (!(sender instanceof Player))
-            return false;
-        String name = sender.getName();
-        Player player = (Player) sender;
-        if ((cmd.getName().equalsIgnoreCase("ds")) || (cmd.getName().equalsIgnoreCase("deathswap"))) {
-            if (args.length == 0) {
+        if(sender instanceof Player) {
+            String name = sender.getName();
+            Player player = (Player) sender;
+            if(args.length == 0) {
                 plugin.utility.message("Join with /ds join", player);
-            }
-        }
-        if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
-                plugin.join.join(player);
-            }
-            if (args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
-                plugin.leave.leave(player);
-            }
-            if (args[0].equalsIgnoreCase("accept") && player.hasPermission("deathswap.accept")) {
-                if (plugin.accept.containsKey(name)) {
-                    plugin.newGame.newGame(plugin.getServer().getPlayerExact(plugin.accept.get(name)), player);
-                    plugin.accept.remove(name);
+            } else if(args.length == 1) {
+                if(args[0].equalsIgnoreCase("join") && player.hasPermission("deathswap.join")) {
+                    plugin.join.join(player);
+                } else if(args[0].equalsIgnoreCase("leave") && player.hasPermission("deathswap.leave")) {
+                    plugin.leave.leave(player);
+                } else if(args[0].equalsIgnoreCase("accept")) {
+                    if(player.hasPermission("deathswap.accept")) {
+                        if(plugin.accept.containsKey(name)) {
+                            plugin.newGame.newGame(plugin.getServer().getPlayerExact(plugin.accept.get(name)), player);
+                            plugin.accept.remove(name);
+                        }
+                    } else {
+                        plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);
+                    }
                 }
-            }
-        }
-
-        if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("set") && player.hasPermission("deathswap.set")) {
-                Location loc = player.getLocation();
-                String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
-                if (args[1].equals("lobby")) {
-                    plugin.getConfig().set("lobby_spawn", locs);
-                } else if (args[1].equals("end")) {
-                    plugin.getConfig().set("end_spawn", locs);
+            } else if(args.length == 2) {
+                if(args[0].equalsIgnoreCase("set")) {
+                    if(player.hasPermission("deathswap.set")) {
+                        Location loc = player.getLocation();
+                        String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
+                        if(args[1].equals("lobby")) {
+                            plugin.getConfig().set("lobby_spawn", locs);
+                        } else if(args[1].equals("end")) {
+                            plugin.getConfig().set("end_spawn", locs);
+                        } else {
+                            return true;
+                        }
+                        plugin.saveConfig();
+                        plugin.utility.message(ChatColor.GOLD + "Spawn point set!", player);
+                    } else {
+                        plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);
+                    }
+                } else if(args[0].equalsIgnoreCase("duel")) {
+                    if(player.hasPermission("deathswap.duel")) {
+                        Player accepter = plugin.getServer().getPlayer(args[1]);
+                        if(accepter == null || accepter.getName().equals(name) || plugin.game.contains(accepter.getName())) {
+                            plugin.utility.message(ChatColor.RED + "Invalid Player", player);
+                        } else {
+                            startAccept(player, accepter);
+                        }
+                    }
                 } else {
-                    return false;
+                    plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);
                 }
-                plugin.saveConfig();
-                plugin.utility.message(ChatColor.GOLD + "Spawn point set!", player);
+            } else {
+                plugin.utility.message(ChatColor.RED + "Invalid command!", player);
             }
-            if (args[0].equalsIgnoreCase("duel") && player.hasPermission("deathswap.duel")) {
-                Player accepter = plugin.getServer().getPlayer(args[1]);
-                if (accepter == null || accepter.getName().equals(name) || plugin.game.contains(accepter.getName())) {
-                    sender.sendMessage("Invalid Player");
-                } else {
-                    startAccept(player, accepter);
-                }
-            }
+        } else {
+            plugin.utility.message(ChatColor.RED + "You must be a player to do that!", sender);
         }
-        return false;
+        return true;
     }
 
     public void startAccept(final Player requester, Player accepter) {

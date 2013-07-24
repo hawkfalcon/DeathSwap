@@ -4,7 +4,8 @@ main: com.hawkfalcon.deathswap.DeathSwap
 author: hawkfalcon
 commands: 
   ds:
-    description: All DeathSwap commands          
+    description: All DeathSwap commands   
+    aliases: [deathswap]       
 permissions: 
   deathswap.leave:
     description: Allows use of /ds leave

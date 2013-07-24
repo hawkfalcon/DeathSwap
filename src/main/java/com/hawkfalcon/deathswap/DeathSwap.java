@@ -1,17 +1,22 @@
 package com.hawkfalcon.deathswap;
 
-import com.hawkfalcon.deathswap.Game.*;
-import com.hawkfalcon.deathswap.Utilities.Inventory;
-import com.hawkfalcon.deathswap.Utilities.Loc;
-import com.hawkfalcon.deathswap.Utilities.MetricsLite;
-import com.hawkfalcon.deathswap.Utilities.Utility;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import com.hawkfalcon.deathswap.Game.Join;
+import com.hawkfalcon.deathswap.Game.Leave;
+import com.hawkfalcon.deathswap.Game.NewGame;
+import com.hawkfalcon.deathswap.Game.Swap;
+import com.hawkfalcon.deathswap.Game.WinGame;
+import com.hawkfalcon.deathswap.Utilities.Inventory;
+import com.hawkfalcon.deathswap.Utilities.Loc;
+import com.hawkfalcon.deathswap.Utilities.MetricsLite;
+import com.hawkfalcon.deathswap.Utilities.Utility;
 
 
 public class DeathSwap extends JavaPlugin {
@@ -63,6 +68,10 @@ public class DeathSwap extends JavaPlugin {
 
     public int randNum;
 
+    
+    /**
+     * Starts the swap timer
+     */
     public void startTimer() {
         new BukkitRunnable() {
 

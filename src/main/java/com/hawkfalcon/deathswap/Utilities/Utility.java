@@ -1,9 +1,15 @@
 package com.hawkfalcon.deathswap.Utilities;
 
-import com.hawkfalcon.deathswap.DeathSwap;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+
+import com.hawkfalcon.deathswap.DeathSwap;
 
 public class Utility {
 
@@ -13,7 +19,7 @@ public class Utility {
         this.plugin = ds;
     }
 
-    public void message(String message, Player player) {
+    public void message(String message, CommandSender player) {
         player.sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
     }
 
