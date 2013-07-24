@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.hawkfalcon.deathswap.DeathSwap;
-import com.hawkfalcon.deathswap.API.DeathSwapWinEvent;
 import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
 
 public class WinGame {
@@ -33,8 +32,6 @@ public class WinGame {
 
     public void winGame(final Player loser, boolean died) {
         final Player winner = getWinner(loser);
-        DeathSwapWinEvent dswe = new DeathSwapWinEvent(winner.getName(), loser.getName());
-        Bukkit.getServer().getPluginManager().callEvent(dswe);
         DeathSwapWinGameEvent dswge = new DeathSwapWinGameEvent(winner, loser);
         Bukkit.getServer().getPluginManager().callEvent(dswge);
         // JOPHESTUS IS AWESOME
