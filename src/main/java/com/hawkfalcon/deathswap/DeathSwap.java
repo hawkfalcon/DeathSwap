@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -57,7 +58,9 @@ public class DeathSwap extends JavaPlugin {
     public void onDisable() {
         if (!game.isEmpty()) {
             for (String name:game) {
-                utility.teleport(getServer().getPlayerExact(name), 1);
+                Player player = getServer().getPlayerExact(name);
+                utility.teleport(player, 1);
+                utility.restorePlayer(player);
             }
         }
     }
