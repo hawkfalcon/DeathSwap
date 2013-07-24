@@ -140,7 +140,7 @@ public class DSListener implements Listener {
     @EventHandler
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         String name = event.getPlayer().getName();
-        if (plugin.game.contains(name)) {
+        if (plugin.game.contains(name) || plugin.lobby.contains(name)) {
             if (plugin.getConfig().getBoolean("chat_prefix")) {
                 event.setFormat(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("prefix") + " %s: %s"));
             }
