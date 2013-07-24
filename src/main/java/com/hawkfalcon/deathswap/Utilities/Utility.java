@@ -38,20 +38,27 @@ public class Utility {
         }
     }
 
-    // 0=lobby 1=arena
-    public void teleport(Player player, int spawn) {
-        if (spawn == 0) {
-            String cloc = plugin.getConfig().getString("lobby_spawn");
-            runTp(player, cloc);
-        }
-        if (spawn == 1) {
-            String cloc = plugin.getConfig().getString("end_spawn");
-            runTp(player, cloc);
+    public void broadcastGame(String message) {
+        for (String sender:plugin.game) {
+            plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
         }
     }
 
+    /**
+     * @param spawn Lobby = 0, Arena = 1
+     */
+    public void teleport(Player player, int spawn) {
+        String cloc = null;
+        if (spawn == 0) {
+            cloc = plugin.getConfig().getString("lobby_spawn");
+        } else {
+            cloc = plugin.getConfig().getString("end_spawn");
+        }
+        runTp(player, cloc);
+    }
+
     public void runTp(Player player, String cloc) {
-        if (!(cloc.equals("world,0,0,0,0,0"))) {
+        if (!cloc.equals("world,0,0,0,0,0")) {
             player.teleport(plugin.loc.getLocation(cloc));
         } else {
             plugin.utility.message(ChatColor.RED + "You must set spawn points with /ds set <lobby/end> first!", player);
