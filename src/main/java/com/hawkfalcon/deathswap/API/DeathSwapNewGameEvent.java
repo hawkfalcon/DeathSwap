@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class DeathSwapNewGameEvent extends Event {
+
     private static final HandlerList handlers = new HandlerList();
     private Player playerone;
     private Player playertwo;

@@ -1,5 +1,8 @@
 package com.hawkfalcon.deathswap.Utilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
@@ -7,13 +10,15 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.hawkfalcon.deathswap.DeathSwap;
 
 public class Utility {
 
     public DeathSwap plugin;
+
+    Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
 
     public Utility(DeathSwap ds) {
         this.plugin = ds;
@@ -97,9 +102,15 @@ public class Utility {
         plugin.game.remove(name);
         plugin.startgame.remove(name);
         if (plugin.getConfig().getBoolean("save_inventory")) {
-            Inventory i = com.hawkfalcon.deathswap.Utilities.Inventory.stringToInventory(plugin.inventorystorage.get(name));
+            PlayerInventory i = inventories.get(name);
+            inventories.remove(name);
             player.getInventory().setContents(i.getContents());
+            player.getInventory().setArmorContents(i.getArmorContents());
         }
+    }
+
+    public void saveInventory(Player player) {
+        inventories.put(player.getName(), player.getInventory());
     }
 
 }

@@ -13,16 +13,13 @@ import com.hawkfalcon.deathswap.Game.Leave;
 import com.hawkfalcon.deathswap.Game.NewGame;
 import com.hawkfalcon.deathswap.Game.Swap;
 import com.hawkfalcon.deathswap.Game.WinGame;
-import com.hawkfalcon.deathswap.Utilities.Inventory;
 import com.hawkfalcon.deathswap.Utilities.Loc;
 import com.hawkfalcon.deathswap.Utilities.MetricsLite;
 import com.hawkfalcon.deathswap.Utilities.Utility;
 
-
 public class DeathSwap extends JavaPlugin {
 
     public Utility utility = new Utility(this);
-    public Inventory inventory = new Inventory();
     public Loc loc = new Loc(this);
     public NewGame newGame = new NewGame(this);
     public WinGame winGame = new WinGame(this);
@@ -32,7 +29,6 @@ public class DeathSwap extends JavaPlugin {
 
     public HashMap<String, String> match = new HashMap<String, String>();
     public HashMap<String, String> accept = new HashMap<String, String>();
-    public HashMap<String, String> inventorystorage = new HashMap<String, String>();
     public ArrayList<String> game = new ArrayList<String>();
     public ArrayList<String> lobby = new ArrayList<String>();
     public ArrayList<String> startgame = new ArrayList<String>();
@@ -60,7 +56,7 @@ public class DeathSwap extends JavaPlugin {
 
     public void onDisable() {
         if (!game.isEmpty()) {
-            for (String name : game) {
+            for (String name:game) {
                 utility.teleport(getServer().getPlayerExact(name), 1);
             }
         }
@@ -68,7 +64,6 @@ public class DeathSwap extends JavaPlugin {
 
     public int randNum;
 
-    
     /**
      * Starts the swap timer
      */

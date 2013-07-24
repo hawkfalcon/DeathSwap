@@ -1,6 +1,7 @@
 package com.hawkfalcon.deathswap.Utilities;
 
-import com.hawkfalcon.deathswap.DeathSwap;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,7 +10,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
+import com.hawkfalcon.deathswap.DeathSwap;
 
 public class Loc {
 
@@ -63,6 +64,7 @@ public class Loc {
 
     public void countdown(final int time, final Location locone, final Location loctwo, final Player playerone, final Player playertwo) {
         new BukkitRunnable() {
+
             int count = time;
 
             @Override

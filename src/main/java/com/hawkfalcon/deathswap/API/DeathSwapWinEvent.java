@@ -4,6 +4,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class DeathSwapWinEvent extends Event {
+
     private static final HandlerList handlers = new HandlerList();
     private String winner;
     private String loser;

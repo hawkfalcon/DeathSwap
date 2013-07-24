@@ -1,12 +1,13 @@
 package com.hawkfalcon.deathswap.Game;
 
-import com.hawkfalcon.deathswap.API.DeathSwapSwapEvent;
-import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import com.hawkfalcon.deathswap.DeathSwap;
+import com.hawkfalcon.deathswap.API.DeathSwapSwapEvent;
 
 public class Swap {
 
@@ -19,7 +20,7 @@ public class Swap {
     public void switchPlayers() {
         DeathSwapSwapEvent dsse = new DeathSwapSwapEvent();
         Bukkit.getServer().getPluginManager().callEvent(dsse);
-        for (String name : plugin.match.keySet()) {
+        for (String name:plugin.match.keySet()) {
             final Player pone = plugin.getServer().getPlayer(name);
             final Player ptwo = plugin.getServer().getPlayer(plugin.match.get(name));
             // skips the first swap
