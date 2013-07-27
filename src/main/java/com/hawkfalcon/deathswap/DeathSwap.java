@@ -14,13 +14,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathSwap extends JavaPlugin {
 
-    public Utility utility = new Utility(this);
+    public Utility utility;
     public Loc loc = new Loc(this);
     public NewGame newGame = new NewGame(this);
     public WinGame winGame = new WinGame(this);
@@ -48,6 +49,7 @@ public class DeathSwap extends JavaPlugin {
         } catch (IOException e) {
             getLogger().warning("Error Submitting stats!");
         }
+        utility = new Utility(this, getConfig().getString("prefix", "[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "]"));
         getServer().getPluginManager().registerEvents(new DSListener(this), this);
         getCommand("ds").setExecutor(new DSCommand(this));
         startTimer();

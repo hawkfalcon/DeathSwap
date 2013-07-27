@@ -19,12 +19,13 @@ public class Utility {
 
     public DeathSwap plugin;
     
-    public static String PREFIX = "[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] ";
+    public static String PREFIX;
 
     Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
 
-    public Utility(DeathSwap ds) {
+    public Utility(DeathSwap ds, String prefix) {
         this.plugin = ds;
+        PREFIX = prefix + " ";
     }
 
     public void message(String message, CommandSender player) {
