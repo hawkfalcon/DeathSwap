@@ -1,18 +1,13 @@
 package com.hawkfalcon.deathswap.utilities;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.World;
+import com.hawkfalcon.deathswap.DeathSwap;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import com.hawkfalcon.deathswap.DeathSwap;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utility {
 
@@ -33,13 +28,13 @@ public class Utility {
     }
 
     public void broadcastLobby(String message) {
-        for (String sender:plugin.lobby) {
+        for (String sender : plugin.lobby) {
             plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
         }
     }
 
     public void broadcastGame(String message) {
-        for (String sender:plugin.game) {
+        for (String sender : plugin.game) {
             plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
         }
     }

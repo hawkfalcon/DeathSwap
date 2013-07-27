@@ -1,22 +1,17 @@
 package com.hawkfalcon.deathswap;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-
+import com.hawkfalcon.deathswap.game.*;
+import com.hawkfalcon.deathswap.utilities.Loc;
+import com.hawkfalcon.deathswap.utilities.MetricsLite;
+import com.hawkfalcon.deathswap.utilities.Utility;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.hawkfalcon.deathswap.game.Join;
-import com.hawkfalcon.deathswap.game.Leave;
-import com.hawkfalcon.deathswap.game.NewGame;
-import com.hawkfalcon.deathswap.game.Swap;
-import com.hawkfalcon.deathswap.game.WinGame;
-import com.hawkfalcon.deathswap.utilities.Loc;
-import com.hawkfalcon.deathswap.utilities.MetricsLite;
-import com.hawkfalcon.deathswap.utilities.Utility;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class DeathSwap extends JavaPlugin {
 
@@ -57,7 +52,7 @@ public class DeathSwap extends JavaPlugin {
 
     public void onDisable() {
         if (!game.isEmpty()) {
-            for (String name:game) {
+            for (String name : game) {
                 Player player = getServer().getPlayerExact(name);
                 utility.teleport(player, 1);
                 utility.restorePlayer(player);

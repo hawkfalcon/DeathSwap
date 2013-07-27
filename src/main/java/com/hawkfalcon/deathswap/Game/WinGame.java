@@ -1,11 +1,10 @@
 package com.hawkfalcon.deathswap.game;
 
+import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import com.hawkfalcon.deathswap.DeathSwap;
-import com.hawkfalcon.deathswap.API.DeathSwapWinGameEvent;
 
 public class WinGame {
 
@@ -21,7 +20,7 @@ public class WinGame {
             winner = plugin.getServer().getPlayerExact(plugin.match.get(loser.getName()));
         } else if (plugin.match.containsValue(loser.getName())) {
             winner = null;
-            for (String key:plugin.match.keySet()) {
+            for (String key : plugin.match.keySet()) {
                 if (plugin.match.get(key).equals(loser.getName())) {
                     winner = plugin.getServer().getPlayerExact(key);
                 }

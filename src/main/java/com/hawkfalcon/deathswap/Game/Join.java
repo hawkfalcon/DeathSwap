@@ -1,9 +1,8 @@
 package com.hawkfalcon.deathswap.game;
 
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-
-import com.hawkfalcon.deathswap.DeathSwap;
 
 public class Join {
 
