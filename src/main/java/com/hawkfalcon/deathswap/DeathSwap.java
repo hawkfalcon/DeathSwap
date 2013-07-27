@@ -1,18 +1,22 @@
 package com.hawkfalcon.deathswap;
 
-import com.hawkfalcon.deathswap.game.*;
+import com.hawkfalcon.deathswap.game.Join;
+import com.hawkfalcon.deathswap.game.Leave;
+import com.hawkfalcon.deathswap.game.NewGame;
+import com.hawkfalcon.deathswap.game.Swap;
+import com.hawkfalcon.deathswap.game.WinGame;
 import com.hawkfalcon.deathswap.utilities.Loc;
 import com.hawkfalcon.deathswap.utilities.MetricsLite;
 import com.hawkfalcon.deathswap.utilities.Utility;
-
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class DeathSwap extends JavaPlugin {
 

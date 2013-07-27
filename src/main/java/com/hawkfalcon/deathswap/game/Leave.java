@@ -1,6 +1,7 @@
 package com.hawkfalcon.deathswap.game;
 
 import com.hawkfalcon.deathswap.DeathSwap;
+
 import org.bukkit.entity.Player;
 
 public class Leave {

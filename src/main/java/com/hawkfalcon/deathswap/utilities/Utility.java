@@ -2,6 +2,9 @@ package com.hawkfalcon.deathswap.utilities;
 
 import com.hawkfalcon.deathswap.DeathSwap;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
@@ -11,9 +14,6 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Utility {
 
