@@ -92,9 +92,8 @@ public class Loc {
         Random rand = new Random();
         int rad = plugin.getConfig().getInt("random_spawn_radius", 10000);
         if (rad < 10000) {
-            plugin.utility.broadcast("The radius in the config is too small, setting to 10000!", true);
-            plugin.getLogger().warning("The radius in the config is too small, setting to 10000!");
-            plugin.getConfig().set("random_spawn_radius", 10000);
+            plugin.utility.broadcast("The radius in the config is too small, using 10000!", true);
+            plugin.getLogger().warning("The radius in the config is too small, using to 10000!");
         }
         int apart = plugin.getConfig().getInt("random_spawn_distance_apart", 100);
         int min = -(rad / apart);
