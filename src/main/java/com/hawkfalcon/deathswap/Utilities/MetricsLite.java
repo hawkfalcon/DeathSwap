@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap.Utilities;
+package com.hawkfalcon.deathswap.utilities;
 
 /*
  * Copyright 2011-2013 Tyler Blair. All rights reserved.

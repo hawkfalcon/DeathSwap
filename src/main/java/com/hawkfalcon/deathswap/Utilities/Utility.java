@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap.Utilities;
+package com.hawkfalcon.deathswap.utilities;
 
 import java.util.HashMap;
 import java.util.Map;

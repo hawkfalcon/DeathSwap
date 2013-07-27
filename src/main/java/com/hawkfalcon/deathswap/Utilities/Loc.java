@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap.Utilities;
+package com.hawkfalcon.deathswap.utilities;
 
 import java.util.Random;
 
@@ -90,7 +90,11 @@ public class Loc {
             world = center.getWorld();
         }
         Random rand = new Random();
-        int rad = plugin.getConfig().getInt("random_spawn_radius", 100000);
+        int rad = plugin.getConfig().getInt("random_spawn_radius", 10000);
+        if (rad < 10000) {
+           plugin.utility.broadcast("The radius in the config is too small, setting to 10000!");
+           plugin.getConfig().set("random_spawn_radius", 10000);
+        }
         int apart = plugin.getConfig().getInt("random_spawn_distance_apart", 100);
         int min = -(rad / apart);
         int max = rad / apart;
@@ -99,7 +103,7 @@ public class Loc {
         double z = 0;
         Material below = null;
         Material above = null;
-        int timeout = 500;
+        int timeout = 5000;
         while (true) {
             timeout--;
             if (timeout == 0) {
