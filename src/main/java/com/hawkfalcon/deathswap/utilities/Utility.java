@@ -1,7 +1,13 @@
 package com.hawkfalcon.deathswap.utilities;
 
 import com.hawkfalcon.deathswap.DeathSwap;
-import org.bukkit.*;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
@@ -12,6 +18,8 @@ import java.util.Map;
 public class Utility {
 
     public DeathSwap plugin;
+    
+    public static String PREFIX = "[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] ";
 
     Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
 
@@ -20,22 +28,34 @@ public class Utility {
     }
 
     public void message(String message, CommandSender player) {
-        player.sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
+        player.sendMessage(PREFIX + message);
     }
 
     public void broadcast(String message) {
-        plugin.getServer().broadcastMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + message);
+        broadcast(message, false);
+    }
+
+    public void broadcast(String message, boolean op) {
+        if (!op) {
+            plugin.getServer().broadcastMessage(PREFIX + message);
+        } else {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.isOp()) {
+                    player.sendMessage(message);
+                }
+            }
+        }
     }
 
     public void broadcastLobby(String message) {
         for (String sender : plugin.lobby) {
-            plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
+            plugin.getServer().getPlayer(sender).sendMessage(PREFIX + ChatColor.GREEN + message);
         }
     }
 
     public void broadcastGame(String message) {
         for (String sender : plugin.game) {
-            plugin.getServer().getPlayer(sender).sendMessage("[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "] " + ChatColor.GREEN + message);
+            plugin.getServer().getPlayer(sender).sendMessage(PREFIX + ChatColor.GREEN + message);
         }
     }
 
