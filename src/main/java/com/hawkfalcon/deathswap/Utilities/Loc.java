@@ -1,7 +1,6 @@
 package com.hawkfalcon.deathswap.utilities;
 
-import java.util.Random;
-
+import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,7 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.hawkfalcon.deathswap.DeathSwap;
+import java.util.Random;
 
 public class Loc {
 
@@ -92,8 +91,8 @@ public class Loc {
         Random rand = new Random();
         int rad = plugin.getConfig().getInt("random_spawn_radius", 10000);
         if (rad < 10000) {
-           plugin.utility.broadcast("The radius in the config is too small, setting to 10000!");
-           plugin.getConfig().set("random_spawn_radius", 10000);
+            plugin.utility.broadcast("The radius in the config is too small, setting to 10000!");
+            plugin.getConfig().set("random_spawn_radius", 10000);
         }
         int apart = plugin.getConfig().getInt("random_spawn_distance_apart", 100);
         int min = -(rad / apart);
@@ -103,16 +102,8 @@ public class Loc {
         double z = 0;
         Material below = null;
         Material above = null;
-        int timeout = 5000;
         while (true) {
-            timeout--;
-            if (timeout == 0) {
-                plugin.utility.broadcast("DeathSwap timed out. This usually occurs when the radius is too small. Please increase the radius. Aborting game.");
-                x = 0;
-                z = 0;
-                y = 0;
-                break;
-            } else if (below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
+            if (below == null || below == Material.LAVA || below == Material.WATER || below == Material.STATIONARY_WATER || below == Material.BEDROCK || above != Material.AIR) {
                 x = (rand.nextInt(max - min + 1) + min) * apart;
                 z = (rand.nextInt(max - min + 1) + min) * apart;
                 y = world.getHighestBlockAt((int) x, (int) z).getY();
