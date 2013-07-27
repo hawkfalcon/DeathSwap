@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap.game;
+package com.hawkfalcon.deathswap.gamen;
 
 import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.ChatColor;

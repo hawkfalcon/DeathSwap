@@ -1,9 +1,10 @@
 package com.hawkfalcon.deathswap;
 
-import com.hawkfalcon.deathswap.game.*;
-import com.hawkfalcon.deathswap.utilities.Loc;
-import com.hawkfalcon.deathswap.utilities.MetricsLite;
-import com.hawkfalcon.deathswap.utilities.Utility;
+import com.hawkfalcon.deathswap.gamen.*;
+import com.hawkfalcon.deathswap.utilitiesn.Loc;
+import com.hawkfalcon.deathswap.utilitiesn.MetricsLite;
+import com.hawkfalcon.deathswap.utilitiesn.Utility;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;

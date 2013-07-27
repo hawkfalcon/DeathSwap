@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap.game;
+package com.hawkfalcon.deathswap.gamen;
 
 import com.hawkfalcon.deathswap.API.DeathSwapNewGameEvent;
 import com.hawkfalcon.deathswap.DeathSwap;

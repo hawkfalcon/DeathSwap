@@ -1,4 +1,4 @@
-package com.hawkfalcon.deathswap.utilities;
+package com.hawkfalcon.deathswap.utilitiesn;
 
 import com.hawkfalcon.deathswap.DeathSwap;
 import org.bukkit.Bukkit;
