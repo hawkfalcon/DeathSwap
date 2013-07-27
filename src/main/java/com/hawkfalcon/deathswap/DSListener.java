@@ -102,10 +102,10 @@ public class DSListener implements Listener {
         String name = player.getName();
         Location cloc = null;
         if (plugin.lobby.contains(name)) {
-            cloc = plugin.loc.getLocation(plugin.getConfig().getString("lobby_spawn"));
+            cloc = plugin.loc.getLocation(plugin.data.getString("lobby_spawn"));
         }
         if (plugin.game.contains(name)) {
-            cloc = plugin.loc.getLocation(plugin.getConfig().getString("end_spawn"));
+            cloc = plugin.loc.getLocation(plugin.data.getString("end_spawn"));
         }
         if (cloc == null) {
             cloc = Bukkit.getWorlds().get(0).getSpawnLocation();

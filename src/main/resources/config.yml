@@ -1,8 +1,7 @@
-#set with /ds set lobby
-lobby_spawn: world,0,0,0,0,0 
-
-#set with /ds set end
-end_spawn: world,0,0,0,0,0 
+#SETUP
+#
+# 1) Use '/ds set lobby' to set where the deathswap lobby is
+# 2) Use '/ds set end' to set where the finished players will end up
 
 #twenty seconds min time between swaps
 min_time: 20 

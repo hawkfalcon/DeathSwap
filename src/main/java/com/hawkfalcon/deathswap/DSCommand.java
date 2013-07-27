@@ -51,13 +51,13 @@ public class DSCommand implements CommandExecutor {
                         Location loc = player.getLocation();
                         String locs = player.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
                         if (args[1].equals("lobby")) {
-                            plugin.getConfig().set("lobby_spawn", locs);
+                            plugin.data.set("lobby_spawn", locs);
                         } else if (args[1].equals("end")) {
-                            plugin.getConfig().set("end_spawn", locs);
+                            plugin.data.set("end_spawn", locs);
                         } else {
                             return true;
                         }
-                        plugin.saveConfig();
+                        plugin.saveData();
                         plugin.utility.message(ChatColor.GOLD + "Spawn point set!", player);
                     } else {
                         plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);

@@ -9,12 +9,18 @@ import com.hawkfalcon.deathswap.utilities.Loc;
 import com.hawkfalcon.deathswap.utilities.MetricsLite;
 import com.hawkfalcon.deathswap.utilities.Utility;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -40,9 +46,15 @@ public class DeathSwap extends JavaPlugin {
     public boolean protect = false;
     public int min;
     public int max;
+    public int randNum;
+
+    public File dataFile;
+    public YamlConfiguration data;
 
     public void onEnable() {
+        loadData();
         saveDefaultConfig();
+        transferInfoToData();
         try {
             MetricsLite metrics = new MetricsLite(this);
             metrics.start();
@@ -67,8 +79,6 @@ public class DeathSwap extends JavaPlugin {
         }
     }
 
-    public int randNum;
-
     /**
      * Starts the swap timer
      */
@@ -83,5 +93,69 @@ public class DeathSwap extends JavaPlugin {
             }
 
         }.runTaskLater(this, randNum * 20L);
+    }
+
+    public void loadData() {
+        File dataF = new File(getDataFolder(), "data.yml");
+        OutputStream out = null;
+        InputStream defDataStream = getResource("data.yml");
+        if (!dataF.exists()) {
+            try {
+                getDataFolder().mkdir();
+                dataF.createNewFile();
+                if (defDataStream != null) {
+                    out = new FileOutputStream(dataF);
+                    int read = 0;
+                    byte[] bytes = new byte[1024];
+
+                    while ((read = defDataStream.read(bytes)) != -1) {
+                        out.write(bytes, 0, read);
+                    }
+                    return;
+                }
+            } catch (IOException e) {
+                getLogger().severe("Couldn't create data file.");
+                e.printStackTrace();
+            } finally {
+                if (defDataStream != null) {
+                    try {
+                        defDataStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+        YamlConfiguration conf = YamlConfiguration.loadConfiguration(dataF);
+        data = conf;
+        dataFile = dataF;
+    }
+
+    public void saveData() {
+        try {
+            data.save(dataFile);
+        } catch (IOException e) {
+            getLogger().severe("Couldn't save data file.");
+            e.printStackTrace();
+        }
+    }
+
+    public void transferInfoToData() {
+        Set<String> keys = getConfig().getKeys(false);
+        if (keys.contains("lobby_spawn")) {
+            data.set("lobby_spawn", getConfig().getString("lobby_spawn"));
+        }
+        if (keys.contains("end_spawn")) {
+            data.set("end_spawn", getConfig().getString("end_spawn"));
+        }
+        saveData();
     }
 }

@@ -66,9 +66,9 @@ public class Utility {
     public void teleport(Player player, int spawn) {
         String cloc = null;
         if (spawn == 0) {
-            cloc = plugin.getConfig().getString("lobby_spawn");
+            cloc = plugin.data.getString("lobby_spawn");
         } else {
-            cloc = plugin.getConfig().getString("end_spawn");
+            cloc = plugin.data.getString("end_spawn");
         }
         runTp(player, cloc);
     }

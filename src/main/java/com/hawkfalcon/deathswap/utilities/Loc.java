@@ -37,7 +37,7 @@ public class Loc {
     }
 
     public void randomTeleport(Player playerone, Player playertwo) {
-        Location lobby = getLocation(plugin.getConfig().getString("lobby_spawn"));
+        Location lobby = getLocation(plugin.data.getString("lobby_spawn"));
         Location locone = randomLoc(lobby);
         Location loctwo = randomLoc(lobby);
         loadLoc(locone);
