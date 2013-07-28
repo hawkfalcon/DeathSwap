@@ -25,7 +25,7 @@ public class Utility {
 
     public Utility(DeathSwap ds, String prefix) {
         this.plugin = ds;
-        PREFIX = prefix + " ";
+        PREFIX = ChatColor.translateAlternateColorCodes('&', prefix) + " ";
     }
 
     public void message(String message, CommandSender player) {
