@@ -111,7 +111,6 @@ public class DeathSwap extends JavaPlugin {
                     while ((read = defDataStream.read(bytes)) != -1) {
                         out.write(bytes, 0, read);
                     }
-                    return;
                 }
             } catch (IOException e) {
                 getLogger().severe("Couldn't create data file.");
