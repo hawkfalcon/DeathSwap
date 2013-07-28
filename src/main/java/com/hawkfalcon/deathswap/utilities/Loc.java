@@ -49,13 +49,6 @@ public class Loc {
         } else {
             tpPlayer(locone, playerone);
             tpPlayer(loctwo, playertwo);
-            new BukkitRunnable() {
-
-                public void run() {
-                    playerone.teleport(locone);
-                    playertwo.teleport(loctwo);
-                }
-            }.runTaskLater(plugin, 10L);
         }
     }
 
@@ -85,13 +78,6 @@ public class Loc {
                     this.cancel();
                     tpPlayer(locone, playerone);
                     tpPlayer(loctwo, playertwo);
-                    new BukkitRunnable() {
-
-                        public void run() {
-                            playerone.teleport(locone);
-                            playertwo.teleport(loctwo);
-                        }
-                    }.runTaskLater(plugin, 20L);
                 }
             }
 
