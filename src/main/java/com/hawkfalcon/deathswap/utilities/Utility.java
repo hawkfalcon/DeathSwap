@@ -61,7 +61,7 @@ public class Utility {
     }
 
     /**
-     * @param spawn Lobby = 0, Arena = 1
+     * @param spawn Lobby = 0, End = 1
      */
     public void teleport(Player player, int spawn) {
         String cloc = null;
@@ -120,7 +120,7 @@ public class Utility {
 
     public void restorePlayer(Player player) {
         String name = player.getName();
-        plugin.utility.playerReset(player);
+        playerReset(player);
         plugin.match.remove(name);
         plugin.game.remove(name);
         plugin.startgame.remove(name);

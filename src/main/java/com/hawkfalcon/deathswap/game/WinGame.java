@@ -41,6 +41,7 @@ public class WinGame {
         } else {
             plugin.utility.message(loser.getName() + " has left the game, you win!", winner);
         }
-        plugin.leave.leave(winner);
+        plugin.leave.leave(winner, died);
+        plugin.leave.leave(loser, true);
     }
 }

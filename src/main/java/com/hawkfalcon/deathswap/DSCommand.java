@@ -31,7 +31,15 @@ public class DSCommand implements CommandExecutor {
                     }
                 } else if (args[0].equalsIgnoreCase("leave")) {
                     if (player.hasPermission("deathswap.leave")) {
-                        plugin.leave.leave(player);
+                        if (plugin.game.contains(player.getName())) {
+                            plugin.winGame.winGame(player, false);
+                            plugin.utility.message("You left the game!", player);
+                        } else if (plugin.lobby.contains(player.getName())) {
+                            plugin.leave.leave(player, false);
+                            plugin.utility.message("You left the game!", player);
+                        } else {
+                            plugin.utility.message(ChatColor.RED + "You are not in a game!", player);
+                        }
                     } else {
                         plugin.utility.message(ChatColor.RED + "You do not have permission to do that!", player);
                     }

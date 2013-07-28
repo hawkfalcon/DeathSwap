@@ -12,9 +12,8 @@ public class Leave {
         this.plugin = ds;
     }
 
-    public void leave(Player player) {
+    public void leave(Player player, boolean died) {
         String name = player.getName();
-        plugin.utility.message("You left the game!", player);
         if (plugin.lobby.contains(name)) {
             plugin.utility.broadcastLobby(name + " left the game!");
             plugin.lobby.remove(name);
@@ -22,9 +21,7 @@ public class Leave {
         }
         if (plugin.game.contains(name)) {
             plugin.utility.restorePlayer(player);
-            plugin.utility.broadcastGame(name + " left the game!");
             plugin.utility.teleport(player, 1);
-            plugin.winGame.winGame(player, false);
         }
     }
 }
