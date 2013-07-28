@@ -10,10 +10,7 @@ import com.hawkfalcon.deathswap.utilities.MetricsLite;
 import com.hawkfalcon.deathswap.utilities.Utility;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -96,46 +93,20 @@ public class DeathSwap extends JavaPlugin {
     }
 
     public void loadData() {
-        File dataF = new File(getDataFolder(), "data.yml");
-        OutputStream out = null;
-        InputStream defDataStream = getResource("data.yml");
-        if (!dataF.exists()) {
+        dataFile = new File(getDataFolder(), "data.yml");
+        if (!dataFile.exists()) {
             try {
                 getDataFolder().mkdir();
-                dataF.createNewFile();
-                if (defDataStream != null) {
-                    out = new FileOutputStream(dataF);
-                    int read = 0;
-                    byte[] bytes = new byte[1024];
+                dataFile.createNewFile();
 
-                    while ((read = defDataStream.read(bytes)) != -1) {
-                        out.write(bytes, 0, read);
-                    }
-                }
             } catch (IOException e) {
                 getLogger().severe("Couldn't create data file.");
                 e.printStackTrace();
-            } finally {
-                if (defDataStream != null) {
-                    try {
-                        defDataStream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (out != null) {
-                    try {
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
-                }
             }
         }
-        YamlConfiguration conf = YamlConfiguration.loadConfiguration(dataF);
+        YamlConfiguration conf = YamlConfiguration.loadConfiguration(dataFile);
         data = conf;
-        dataFile = dataF;
     }
 
     public void saveData() {
@@ -148,11 +119,13 @@ public class DeathSwap extends JavaPlugin {
     }
 
     public void transferInfoToData() {
-        Set<String> keys = getConfig().getKeys(false);
-        if (keys.contains("lobby_spawn")) {
+        Set<String> confKeys = getConfig().getKeys(false);
+        Set<String> dataKeys = data.getKeys(false);
+        // Set<String> keys = getConfig().getKeys(false);
+        if (confKeys.contains("lobby_spawn") && !dataKeys.contains("lobby_spawn")) {
             data.set("lobby_spawn", getConfig().getString("lobby_spawn"));
         }
-        if (keys.contains("end_spawn")) {
+        if (confKeys.contains("end_spawn") && !dataKeys.contains("end_spawn")) {
             data.set("end_spawn", getConfig().getString("end_spawn"));
         }
         saveData();
