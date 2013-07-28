@@ -13,7 +13,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.PlayerInventory;
 
 public class Utility {
 
@@ -21,7 +20,7 @@ public class Utility {
     
     public static String PREFIX;
 
-    Map<String, PlayerInventory> inventories = new HashMap<String, PlayerInventory>();
+    Map<String, InventoryData> inventories = new HashMap<String, InventoryData>();
 
     public Utility(DeathSwap ds, String prefix) {
         this.plugin = ds;
@@ -125,7 +124,7 @@ public class Utility {
         plugin.game.remove(name);
         plugin.startgame.remove(name);
         if (plugin.getConfig().getBoolean("save_inventory")) {
-            PlayerInventory i = inventories.get(name);
+            InventoryData i = inventories.get(name);
             inventories.remove(name);
             player.getInventory().setContents(i.getContents());
             player.getInventory().setArmorContents(i.getArmorContents());
@@ -133,7 +132,7 @@ public class Utility {
     }
 
     public void saveInventory(Player player) {
-        inventories.put(player.getName(), player.getInventory());
+        inventories.put(player.getName(), new InventoryData(player.getInventory()));
     }
 
 }
