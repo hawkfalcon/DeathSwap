@@ -22,7 +22,7 @@ public class NewGame {
         newGameUtils(playertwo);
         DeathSwapNewGameEvent dsnge = new DeathSwapNewGameEvent(playerone, playertwo);
         Bukkit.getServer().getPluginManager().callEvent(dsnge);
-        plugin.utility.broadcast(ChatColor.DARK_AQUA + "game started with " + nameone + " and " + nametwo + "!");
+        plugin.utility.broadcast(ChatColor.DARK_AQUA + "Game started with " + nameone + " and " + nametwo + "!");
         plugin.match.put(nameone, nametwo);
         plugin.loc.randomTeleport(playerone, playertwo);
         plugin.startgame.add(nameone);
