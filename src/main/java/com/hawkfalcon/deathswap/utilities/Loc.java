@@ -36,19 +36,26 @@ public class Loc {
         return location;
     }
 
-    public void randomTeleport(Player playerone, Player playertwo) {
+    public void randomTeleport(final Player playerone, final Player playertwo) {
         Location lobby = getLocation(plugin.data.getString("lobby_spawn"));
-        Location locone = randomLoc(lobby);
-        Location loctwo = randomLoc(lobby);
+        final Location locone = randomLoc(lobby);
+        final Location loctwo = randomLoc(lobby);
         loadLoc(locone);
         loadLoc(loctwo);
-        locone.setY(locone.getY() + 2);
-        loctwo.setY(loctwo.getY() + 2);
+        locone.add(0, 2, 0);
+        loctwo.add(0, 2, 0);
         if (plugin.getConfig().getBoolean("countdown")) {
             countdown(10, locone, loctwo, playerone, playertwo);
         } else {
             tpPlayer(locone, playerone);
             tpPlayer(loctwo, playertwo);
+            new BukkitRunnable() {
+
+                public void run() {
+                    playerone.teleport(locone);
+                    playertwo.teleport(loctwo);
+                }
+            }.runTaskLater(plugin, 10L);
         }
     }
 
@@ -78,10 +85,17 @@ public class Loc {
                     this.cancel();
                     tpPlayer(locone, playerone);
                     tpPlayer(loctwo, playertwo);
+                    new BukkitRunnable() {
+
+                        public void run() {
+                            playerone.teleport(locone);
+                            playertwo.teleport(loctwo);
+                        }
+                    }.runTaskLater(plugin, 20L);
                 }
             }
 
-        }.runTaskTimer(plugin, 0, 20L);
+        }.runTaskTimer(plugin, 0, 10L);
     }
 
     public Location randomLoc(Location center) {
