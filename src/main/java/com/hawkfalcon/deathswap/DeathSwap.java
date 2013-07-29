@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -67,12 +68,18 @@ public class DeathSwap extends JavaPlugin {
     }
 
     public void onDisable() {
-        if (!game.isEmpty()) {
-            for (String name : game) {
-                Player player = getServer().getPlayerExact(name);
-                utility.teleport(player, 1);
-                utility.restorePlayer(player);
-            }
+        List<String> lobbyNames = new ArrayList<String>(lobby);
+        for (String name : lobbyNames) {
+            Player player = getServer().getPlayerExact(name);
+            utility.teleport(player, 1);
+            utility.message(ChatColor.DARK_RED + "Game interrupted by server restart/reload!", player);
+        }
+        List<String> gameNames = new ArrayList<String>(game);
+        for (String name : gameNames) {
+            Player player = getServer().getPlayerExact(name);
+            utility.teleport(player, 1);
+            utility.restorePlayer(player);
+            utility.message(ChatColor.DARK_RED + "Game interrupted by server restart/reload!", player);
         }
     }
 
