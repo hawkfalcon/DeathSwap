@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 public class Utility {
 
     public DeathSwap plugin;
-    
+
     public static String PREFIX;
 
     Map<String, InventoryData> inventories = new HashMap<String, InventoryData>();
