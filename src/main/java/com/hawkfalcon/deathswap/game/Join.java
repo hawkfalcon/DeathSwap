@@ -18,8 +18,8 @@ public class Join {
             String name = player.getName();
             if (!plugin.game.contains(name) && !plugin.lobby.contains(name)) {
                 plugin.utility.message("You joined the game!", player);
-                plugin.utility.broadcastLobby(name + " joined the game!");
                 plugin.lobby.add(name);
+                plugin.utility.broadcastLobby(name + " joined the game!");
                 plugin.utility.teleport(player, 0);
                 plugin.utility.checkForStart();
             } else {
