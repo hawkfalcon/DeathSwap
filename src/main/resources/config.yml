@@ -12,6 +12,9 @@ max_time: 120
 #max distance players spawn
 random_spawn_radius: 10000 
 
+#min distance apart
+random_spawn_distance_apart: 100
+
 #world to use for deathswap, default lobby world.
 world: "worldname" 
 
