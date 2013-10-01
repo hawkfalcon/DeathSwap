@@ -1,7 +1,6 @@
 package com.hawkfalcon.deathswap.game;
 
 import com.hawkfalcon.deathswap.DeathSwap;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

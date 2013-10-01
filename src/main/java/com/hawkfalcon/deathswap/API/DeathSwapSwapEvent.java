@@ -1,11 +1,11 @@
 package com.hawkfalcon.deathswap.API;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class DeathSwapSwapEvent extends Event {
 
