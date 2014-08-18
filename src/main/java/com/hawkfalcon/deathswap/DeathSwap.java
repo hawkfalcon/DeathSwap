@@ -2,7 +2,6 @@ package com.hawkfalcon.deathswap;
 
 import com.hawkfalcon.deathswap.game.*;
 import com.hawkfalcon.deathswap.utilities.Loc;
-import com.hawkfalcon.deathswap.utilities.MetricsLite;
 import com.hawkfalcon.deathswap.utilities.Utility;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
