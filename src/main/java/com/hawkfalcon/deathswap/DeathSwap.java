@@ -44,12 +44,6 @@ public class DeathSwap extends JavaPlugin {
         loadData();
         saveDefaultConfig();
         transferInfoToData();
-        try {
-            MetricsLite metrics = new MetricsLite(this);
-            metrics.start();
-        } catch (IOException e) {
-            getLogger().warning("Error Submitting stats!");
-        }
         utility = new Utility(this, getConfig().getString("prefix", "[" + ChatColor.GOLD + "Death" + ChatColor.GREEN + "Swap" + ChatColor.WHITE + "]"));
         getServer().getPluginManager().registerEvents(new DSListener(this), this);
         getCommand("ds").setExecutor(new DSCommand(this));
